@@ -30,6 +30,7 @@ def uno():    #case 1
 def dos():   #case2 en construccion
     f=open("custom\\stopwords.txt","a")
     str=input("Ingrese la palabra que desea eiminar: ")
+    str = str.lower()
     f.write(str + "\n")
     f.close()
 
@@ -48,10 +49,10 @@ def GenerarFrecuencias(Documento, indice):
             Temp = ""
             Temp = x
             ListaTemp = []
-            if Temp.lower in HashTable:
-                ListaTemp = HashTable.get(Temp.lower)
+            if Temp.lower() in HashTable:
+                ListaTemp = HashTable.get(Temp.lower())
                 ListaTemp[indice] = ListaTemp[indice] + 1
-                HashTable.__setitem__(Temp.lower, ListaTemp)
+                HashTable.__setitem__(Temp.lower(), ListaTemp)
             else:
                 for iteration in range(MAXDOC):
                     ListaTemp.append(0)
@@ -89,7 +90,8 @@ switch = {
         '1': uno,
         '0': cero,
         '2': dos,
-        '3': GenerarEstadisticas
+        '3': GenerarEstadisticas,
+
         }
 
 #Opciones del menu principal
