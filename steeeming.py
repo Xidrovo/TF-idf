@@ -63,3 +63,8 @@ while (op!='0'):
 #print (a)
 # f.close()
 
+#Como hacer Stemming aquí abajo
+#----------------------------------------------------------
+    #stemmer = snowballstemmer.stemmer('spanish')
+    #print(stemmer.stemWord("Pensando"))
+#----------------------------------------------------------
