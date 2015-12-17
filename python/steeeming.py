@@ -43,9 +43,9 @@ def GenerarFrecuencias(Documento, indice):
     with open('files\\' + Documento, 'r') as myfile:
         data = myfile.read()
         Palabras = data.split()
-        setDePalabras  = (set(Palabras) - set(StopWords))
+        removeAll(Palabras,StopWords)
 
-        for x in setDePalabras:
+        for x in Palabras:
             Temp = ""
             Temp = x
             ListaTemp = []
@@ -81,16 +81,16 @@ def GenerarCorpus():
 def GenerarHashmap():
     List = os.listdir("files")
     Cont = 0
+    global HashTable
+    HashTable = {}
     global MAXDOC
     MAXDOC = len(List)
     for x in List:
         GenerarFrecuencias(x, Cont)
         Cont = Cont + 1
     print (HashTable)
-<<<<<<< HEAD
     GenerarCorpus()
-=======
-    
+
 #remueve los elementos de la lista 2 que estan la lista 1
 def removeAll(lista1,lista2):
     for x in lista1:
@@ -98,7 +98,6 @@ def removeAll(lista1,lista2):
             if(x==y):
                 lista1.remove(y)
 
->>>>>>> origin/master
 
 #Devuelve una lista con cada palabra del stopword
 def LeerStopWords():
