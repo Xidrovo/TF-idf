@@ -87,7 +87,18 @@ def GenerarHashmap():
         GenerarFrecuencias(x, Cont)
         Cont = Cont + 1
     print (HashTable)
+<<<<<<< HEAD
     GenerarCorpus()
+=======
+    
+#remueve los elementos de la lista 2 que estan la lista 1
+def removeAll(lista1,lista2):
+    for x in lista1:
+        for y in lista2:
+            if(x==y):
+                lista1.remove(y)
+
+>>>>>>> origin/master
 
 #Devuelve una lista con cada palabra del stopword
 def LeerStopWords():
