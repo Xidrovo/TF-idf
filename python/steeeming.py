@@ -27,7 +27,7 @@ def uno():    #case 1
     a=input("Ingrese el directorio de los archivos")
     shutil.copytree(a,"\\files")
 
-def dos():   #case2 en construccion
+def dos():   #case2 
     f=open("custom\\stopwords.txt","a")
     str=input("Ingrese la palabra que desea eiminar: ")
     str = str.lower()
