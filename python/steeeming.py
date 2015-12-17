@@ -1,7 +1,7 @@
 __author__ = 'CltControl'
 import shutil
 import os
-#import NLTK
+import NLTK
 
 op=1 # variable para switch
 
