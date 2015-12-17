@@ -1,6 +1,7 @@
 __author__ = 'CltControl'
 import os
 <<<<<<< HEAD
+<<<<<<< HEAD
 import NLTK
 =======
 import shutil
@@ -9,6 +10,9 @@ from textblob import TextBlob as tb
 import nltk
 
 >>>>>>> origin/master
+=======
+#import NLTK
+>>>>>>> parent of e6e56ca... holi
 
 op=1 # variable para switch
 
