@@ -38,6 +38,7 @@ def dos():   #case2 en construccion
 def GenerarFrecuencias(Documento, indice):
     ListaTemp = []
     StopWords = LeerStopWords()
+    Numero = 0
     setDePalabras = set()
     with open('files\\' + Documento, 'r') as myfile:
         data = myfile.read()
@@ -50,8 +51,11 @@ def GenerarFrecuencias(Documento, indice):
             ListaTemp = []
             if Temp.lower() in HashTable:
                 ListaTemp = HashTable.get(Temp.lower())
-                ListaTemp[indice] = ListaTemp[indice] + 1
+                Numero = ListaTemp[indice] + 1
+                print (Numero)
                 print (ListaTemp)
+
+                ListaTemp[indice] = Numero
                 HashTable[Temp.lower()] = ListaTemp
             else:
                 for iteration in range(MAXDOC):
@@ -59,8 +63,19 @@ def GenerarFrecuencias(Documento, indice):
                 ListaTemp[indice] = 1
                 HashTable[x.lower() ] = ListaTemp
 
-
         myfile.close()
+
+def GenerarCorpus():
+    ListaRetorno = []
+    Cont = 0
+    for x in HashTable.keys():
+        Cont = 0
+        for y in HashTable.get(x):
+            Cont = Cont + y
+        ListaRetorno.append([x, Cont])
+
+    print( ListaRetorno )
+#    return ListaRetorno
 
 #Coge los documentos de la carpeta "file"
 def GenerarHashmap():
@@ -72,6 +87,7 @@ def GenerarHashmap():
         GenerarFrecuencias(x, Cont)
         Cont = Cont + 1
     print (HashTable)
+    GenerarCorpus()
 
 #Devuelve una lista con cada palabra del stopword
 def LeerStopWords():
