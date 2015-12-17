@@ -1,6 +1,7 @@
 __author__ = 'CltControl'
 import shutil
 import os
+#import NLTK
 
 op=1 # variable para switch
 
@@ -22,12 +23,15 @@ if not os.path.exists("files"):
 def cero(): #case 0
     print("Adios!")
 
-def uno():    #case 1
-    a=input("Ingrese el directorio de los archivos")
+def uno():    #case 1 carga de archivos al directorio
+    a=input("Ingrese el directorio de los archivos: ")
     shutil.copytree(a,"\\files")
 
-#def dos():   #case2 en construccion
-
+def dos():   #case2 eliminar palabras
+    f=open("custom\\stopwords.txt","a")
+    str=input("Ingrese la palabra que desea eiminar: ")
+    f.write(str + "\n")
+    f.close()
 
 def default(): #  default
     print("Opcion Invalida")
@@ -38,7 +42,8 @@ def default(): #  default
 # uso un diccionario (python) como un switch (c )
 switch = {
         '1': uno,
-        '0': cero
+        '0': cero,
+        '2': dos
         }
 
 #Opciones del menu principal
@@ -49,6 +54,7 @@ while (op!='0'):
     2.-Eliminar palabras
     3.-Ingresar Palabras de Busqueda
     4.- Mostrar Estadisticas
+    0.-Salir
 
     """)
     try:
