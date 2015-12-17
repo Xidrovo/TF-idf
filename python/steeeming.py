@@ -1,12 +1,9 @@
 __author__ = 'CltControl'
-import os
 import shutil
-import math
-from textblob import TextBlob as tb
-import nltk
-
+import os
 
 op=1 # variable para switch
+HashTable = {} #Hashmap de frecuencias
 
 #Creacion de archivo con stopwords modificadas
 # La idea es tener 2 archivos de stopwords uno que tendra las stopwords por default
@@ -26,15 +23,40 @@ if not os.path.exists("files"):
 def cero(): #case 0
     print("Adios!")
 
-def uno():    #case 1 carga de archivos al directorio
-    a=input("Ingrese el directorio de los archivos: ")
+def uno():    #case 1
+    a=input("Ingrese el directorio de los archivos")
     shutil.copytree(a,"\\files")
 
-def dos():   #case2 eliminar palabras
+def dos():   #case2 en construccion
     f=open("custom\\stopwords.txt","a")
     str=input("Ingrese la palabra que desea eiminar: ")
     f.write(str + "\n")
     f.close()
+
+#Este método requerirá el nombre del documento
+def GenerarFrecuencias(Documento, indice):
+    StopWords = LeerStopWords()
+    with open('files\\' + Documento, 'r') as myfile:
+        data = myfile.read()
+        Palabras = data.split()
+        print(set(Palabras) - set(StopWords))
+        myfile.close()
+
+def GenerarEstadisticas():
+    List = os.listdir("files")
+    Cont = 0
+    for x in List:
+        GenerarFrecuencias(x, Cont)
+        Cont = Cont + 1
+
+#Devuelve una lista con cada palabra del stopword
+def LeerStopWords():
+    with open('custom\\stopwords.txt', 'r') as myfile:
+        data = myfile.read()
+        myfile.close()
+        return data.split()
+
+
 
 def default(): #  default
     print("Opcion Invalida")
@@ -46,11 +68,11 @@ def default(): #  default
 switch = {
         '1': uno,
         '0': cero,
-        '2': dos
+        '2': dos,
+        '3': GenerarEstadisticas
         }
 
 #Opciones del menu principal
-
 while (op!='0'):
     op=input("""
     Selecione una opcion:
@@ -58,9 +80,9 @@ while (op!='0'):
     2.-Eliminar palabras
     3.-Ingresar Palabras de Busqueda
     4.- Mostrar Estadisticas
-    0.-Salir
 
     """)
+
     try:
         switch[op]() #selecciona opcion del switch
     except KeyError:
@@ -72,6 +94,12 @@ while (op!='0'):
 #a=f.read()
 #print (a)
 # f.close()
+
+#Como hacer Stemming aquí abajo
+#----------------------------------------------------------
+    #stemmer = snowballstemmer.stemmer('spanish')
+    #print(stemmer.stemWord("Pensando"))
+#----------------------------------------------------------
 
 
 #Ejemplo de como usar la libreria de tf-idf

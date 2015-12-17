@@ -85,7 +85,6 @@ la
 lo
 las
 los
-las
 su
 aqui
 mio
@@ -177,4 +176,6 @@ podrian
 podriais
 yo
 aquel
-
+de
+se
+de
