@@ -10,7 +10,7 @@ op=1 # variable para switch
 # segunda opcion del menu principal
 if not os.path.exists("custom"):
     os.makedirs("custom")
-shutil.copy("stopwords.txt", "\\custom\\stopwords.txt")
+shutil.copy("stopwords.txt", "custom\\stopwords.txt")
 
 # Creacion de carpeta para guardar los archivos a examinar
 if not os.path.exists("files"):
