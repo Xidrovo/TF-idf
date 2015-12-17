@@ -4,7 +4,7 @@ import shutil
 import math
 from textblob import TextBlob as tb
 import nltk
-nltk.download()
+
 
 op=1 # variable para switch
 
