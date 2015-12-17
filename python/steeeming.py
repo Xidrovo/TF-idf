@@ -90,7 +90,7 @@ switch = {
         '1': uno,
         '0': cero,
         '2': dos,
-        '3': GenerarEstadisticas,
+        '3': GenerarEstadisticas
 
         }
 
