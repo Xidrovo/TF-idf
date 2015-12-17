@@ -48,26 +48,30 @@ def GenerarFrecuencias(Documento, indice):
             Temp = ""
             Temp = x
             ListaTemp = []
-            if Temp.lower in HashTable:
-                ListaTemp = HashTable.get(Temp.lower)
+            if Temp.lower() in HashTable:
+                ListaTemp = HashTable.get(Temp.lower())
                 ListaTemp[indice] = ListaTemp[indice] + 1
-                HashTable.__setitem__(Temp.lower, ListaTemp)
+                print (ListaTemp)
+                HashTable[Temp.lower()] = ListaTemp
             else:
                 for iteration in range(MAXDOC):
                     ListaTemp.append(0)
                 ListaTemp[indice] = 1
-                HashTable[x] = ListaTemp
+                HashTable[x.lower() ] = ListaTemp
 
 
         myfile.close()
 
-def GenerarEstadisticas():
+#Coge los documentos de la carpeta "file"
+def GenerarHashmap():
     List = os.listdir("files")
     Cont = 0
-    MAXDOC = List.amount()
+    global MAXDOC
+    MAXDOC = len(List)
     for x in List:
         GenerarFrecuencias(x, Cont)
         Cont = Cont + 1
+    print (HashTable)
 
 #Devuelve una lista con cada palabra del stopword
 def LeerStopWords():
@@ -89,7 +93,7 @@ switch = {
         '1': uno,
         '0': cero,
         '2': dos,
-        '3': GenerarEstadisticas
+        '3': GenerarHashmap
         }
 
 #Opciones del menu principal
