@@ -58,12 +58,12 @@ while (op!='0'):
     2.-Eliminar palabras
     3.-Ingresar Palabras de Busqueda
     4.- Mostrar Estadisticas
-   0.-Salir
+    0.-Salir
 
     """)
     try:
         switch[op]() #selecciona opcion del switch
-   except KeyError:
+    except KeyError:
         default()  #si la opcion ingresada no es valida el dicionario devuelve una exception la que es manejada como un default
 
 
