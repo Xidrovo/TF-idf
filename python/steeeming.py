@@ -2,9 +2,9 @@ __author__ = 'CltControl'
 import shutil
 import os
 
-op=1 # variable para switch
+op = 1 # variable para switch
 HashTable = {} #Hashmap de frecuencias
-
+MAXDOC = 0
 #Creacion de archivo con stopwords modificadas
 # La idea es tener 2 archivos de stopwords uno que tendra las stopwords por default
 # y otro que tendra las de por default mas las añadidas por el usuario a travez de la
@@ -33,18 +33,38 @@ def dos():   #case2 en construccion
     f.write(str + "\n")
     f.close()
 
-#Este método requerirá el nombre del documento
+#Este método requerirá el nombre del documento y un índice del doc.
+#Este método me dará un set con las palabras que no están en stopwords las cuales serán usadas para el hashmap.
 def GenerarFrecuencias(Documento, indice):
+    ListaTemp = []
     StopWords = LeerStopWords()
+    setDePalabras = set()
     with open('files\\' + Documento, 'r') as myfile:
         data = myfile.read()
         Palabras = data.split()
-        print(set(Palabras) - set(StopWords))
+        setDePalabras  = (set(Palabras) - set(StopWords))
+
+        for x in setDePalabras:
+            Temp = ""
+            Temp = x
+            ListaTemp = []
+            if Temp.lower in HashTable:
+                ListaTemp = HashTable.get(Temp.lower)
+                ListaTemp[indice] = ListaTemp[indice] + 1
+                HashTable.__setitem__(Temp.lower, ListaTemp)
+            else:
+                for iteration in range(MAXDOC):
+                    ListaTemp.append(0)
+                ListaTemp[indice] = 1
+                HashTable[x] = ListaTemp
+
+
         myfile.close()
 
 def GenerarEstadisticas():
     List = os.listdir("files")
     Cont = 0
+    MAXDOC = List.amount()
     for x in List:
         GenerarFrecuencias(x, Cont)
         Cont = Cont + 1
