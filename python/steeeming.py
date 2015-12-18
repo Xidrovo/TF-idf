@@ -42,13 +42,17 @@ def dos():   #case2 en construccion
     f.close()
 
 def tres():
-    str = input("Ingrese la palabra que desea buscar: ")
+    strin = input("Ingrese la palabra que desea buscar: ")
 
-    GenerarHashmap()
+    SoloGenerarHashmap()
+    Var = ""
 
     try:
-        Var = HashTable.get( str.lower() )
-    except ValueError:
+        for x in HashTable.get((strin)):
+            Var = Var + " " + str(x)
+
+        print("{0:20} ==> {1:10}".format(strin, Var))
+    except Exception:
         print ( "La palabra no está en el documento!" )
 
 #Este método requerirá el nombre del documento y un índice del doc.
@@ -110,20 +114,37 @@ def GenerarCorpus():
             Cont = Cont + y
         ListaRetorno.append([x, Cont])
 
-#    #return ListaRetorno
-
     ListaRetorno = SortList(ListaRetorno)
     ListaRetorno = ListaRetorno[::-1]
-    ImprimirCorpus(ListaRetorno)
+
     return ListaRetorno
 
+#Imprime una lista de palabras junto a la suma total de su frecuencia
 def ImprimirCorpus(Corpus):
     for x in Corpus:
         print ("{0:20} ==> {1:10}" .format(x[0], x[1]) )
+#Imprime tooodas las palabras con su frecuencia por documento
+def ImprimirFullCorpus(Corpus):
+    esTitulo = True
+    for Palabra in Corpus:
+        listaTemp = HashTable.get(Palabra[0])
+        strTemp = ""
+        primerTexto = "Plabras: \t\t\t\t\t\t\t\t"
+        temp2 = ""
+        for y in List:
+            temp2 = temp2 + "{0:15}".format(str(y))
+        primerTexto = primerTexto + temp2
+        for x in listaTemp:
+            strTemp = strTemp + "\t\t\t\t" + str(x)
 
+        if (esTitulo):
+            print (primerTexto)
+            esTitulo = False
+        print ("{0:20} ==> {1:10}".format(Palabra[0], strTemp ) )
 
 #Coge los documentos de la carpeta "file"
 def GenerarHashmap():
+    global List
     List = os.listdir("files")
     Cont = 0
     global HashTable
@@ -133,15 +154,37 @@ def GenerarHashmap():
     for x in List:
         GenerarFrecuencias(x, Cont)
         Cont = Cont + 1
-    GenerarCorpus()
+    listaPalabrasOrdenadas = GenerarCorpus()
+    ImprimirFullCorpus(listaPalabrasOrdenadas)
+#Ls msma func{on que generar hasmap... con la diferencia que esta no la imprime.
+def SoloGenerarHashmap():
+    List = os.listdir("files")
+
+    Cont = 0
+    global HashTable
+    HashTable = {}
+    global MAXDOC
+    MAXDOC = len(List)
+    for x in List:
+        GenerarFrecuencias(x, Cont)
+        Cont = Cont + 1
 
 #remueve los elementos de la lista 2 que estan la lista 1
 def removeAll(lista1,lista2):
     i=0
+    temp = ""
     while i<len(lista1): #for x in lista1:
         for y in lista2:
-            if lista1[i].lower() == y.lower():
+            temp = lista1[i].lower()
+            if temp == y.lower():
                 lista1.remove(lista1[i])
+                i -= 1
+                break
+            if lista1[i].lower() == '':
+                lista1.remove(lista1[i])
+                i -= 1
+                break
+
         i += 1
 
 
