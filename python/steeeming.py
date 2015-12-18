@@ -61,11 +61,11 @@ def GenerarFrecuencias(Documento, indice):
     with open('files\\' + Documento, 'r') as myfile:
         data = myfile.read()
         Palabras = data.split()
-        toLower(Palabras)
-        removeAll(Palabras,StopWords)
+        toLower(Palabras)#convierto los strings en palabras a minusculas
+        removeAll(Palabras,StopWords)  # palabras - Stopwords
 
         for x in Palabras:
-            Temp = ""
+            
             Temp = x
             ListaTemp = []
             if Temp.lower() in HashTable:
@@ -122,7 +122,6 @@ def GenerarHashmap():
 
 #remueve los elementos de la lista 2 que estan la lista 1
 def removeAll(lista1,lista2):
-
     for x in lista1:
         for y in lista2:
             if( x.lower() == y.lower() ):
