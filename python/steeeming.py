@@ -44,11 +44,10 @@ def dos():   #case2 en construccion
 def tres():
     str = input("Ingrese la palabra que desea buscar: ")
 
-    if (len(HashTable) == 0):
-        GenerarHashmap()
+    GenerarHashmap()
 
     try:
-        print ( str + ": " +HashTable.get( str.lower() ) )
+        Var = HashTable.get( str.lower() )
     except ValueError:
         print ( "La palabra no está en el documento!" )
 
@@ -61,7 +60,11 @@ def GenerarFrecuencias(Documento, indice):
         Palabras = data.split()
         toLower(Palabras)#convierto los strings en palabras a minusculas
         toLower(StopWords)
+<<<<<<< HEAD
         Palabras=noPunct(Palabras)
+=======
+        Palabras = BorrarNumeros(Palabras)
+>>>>>>> origin/master
         removeAll(Palabras,StopWords)  # palabras - Stopwords
         for x in Palabras:
             Temp = x
@@ -69,7 +72,6 @@ def GenerarFrecuencias(Documento, indice):
             if Temp.lower() in HashTable:
                 ListaTemp = HashTable.get(Temp.lower())
                 Numero = ListaTemp[indice] + 1
-                print (ListaTemp)
 
                 ListaTemp[indice] = Numero
                 HashTable[Temp.lower()] = ListaTemp
@@ -111,9 +113,20 @@ def GenerarCorpus():
             Cont = Cont + y
         ListaRetorno.append([x, Cont])
 
+<<<<<<< HEAD
     for x in ListaRetorno:
         print(x[0], x[1])
 #    return ListaRetorno
+=======
+    ListaRetorno = SortList(ListaRetorno)
+    ListaRetorno = ListaRetorno[::-1]
+#    ImprimirCorpus(ListaRetorno)
+    return ListaRetorno
+
+def ImprimirCorpus(Corpus):
+    for x in Corpus:
+        print ("{0:20} ==> {1:10}" .format(x[0], x[1]) )
+>>>>>>> origin/master
 
 #Coge los documentos de la carpeta "file"
 def GenerarHashmap():
@@ -126,7 +139,6 @@ def GenerarHashmap():
     for x in List:
         GenerarFrecuencias(x, Cont)
         Cont = Cont + 1
-    print (HashTable)
     GenerarCorpus()
 
 #remueve los elementos de la lista 2 que estan la lista 1
@@ -164,7 +176,26 @@ def LeerStopWords():
 def default(): #  default
     print("Opcion Invalida")
 
+#Ordena una lista de manera ascendente.
+def SortList(lista):
+    NuevaLista = []
+    Index = 0
+    for x in lista:
+        booleano = 1
+        if (len(NuevaLista) == 0):
+            NuevaLista.append(x)
+        else:
+            Index = 0
+            for y in range(len(NuevaLista)):
+                if x[1] < NuevaLista[y][1]:
+                    NuevaLista.insert(Index, x)
+                    booleano = 0
+                    break
+                Index += 1
 
+            if (booleano == 1):
+                NuevaLista.append(x)
+    return NuevaLista
 
 #switch
 # uso un diccionario (python) como un switch (c )

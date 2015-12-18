@@ -2,9 +2,15 @@
 
 #include <ctype.h>       
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include "tinydir.h"
+#include "generic.h"
+#include "hashmap.h"
+
+
+
 
 char * archivoaChar(FILE *archivo);
 
@@ -14,6 +20,8 @@ int main(int argc, char** argv) {
     char * cadena = malloc(200);
     char * cadena2 = malloc(200);
     char * palabra = malloc(200);
+    FILE *f1 = fopen("Doc2.txt", "r");
+   cadena = archivoaChar(f1);
     op = 0;
     while(op!=5){
         printf("Seleccione una opcion: \n 1.-Ingrese archivos \n 2.-Eliminar palabras \n 3.-Ingresar Palabras de Busqueda \n 4.-Mostrar Estadisticas \n 5.-Salir \n");
@@ -47,19 +55,28 @@ int main(int argc, char** argv) {
     return (EXIT_SUCCESS);
 }
 
-//Convierte un archivo a un arreglo de chars y lo retorna
+//Convierte un archivo a un arreglo de chars, lo tokeniza y retorna un arreglo con palabras
 char * archivoaChar(FILE *archivo){ 
     int i;
+    char * pch;
     fseek(archivo, 0, SEEK_END); 
     int tamanoArchivo = ftell(archivo); //nos devuelve el tamaño del texto
-    char *str= malloc(200);
+    char *str= malloc(tamanoArchivo);
     fseek(archivo,0,SEEK_SET);
     for(i = 0; i < tamanoArchivo; i++)
     {
           fscanf(archivo, "%c", &str[i]);
     }
-    getchar();
+    pch = strtok (str," ,.-\n");//Tokeniza el arreglo de chars generado arriba
+  while (pch != NULL)
+  {
+    //printf ("%s\n",pch);
+    pch = strtok (NULL, " ,.-\n");
+  }
+    
     return str;
+    
 }
+
 
 
