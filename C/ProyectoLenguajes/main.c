@@ -6,6 +6,11 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include "tinydir.h"
+#include "generic.h"
+#include "hashmap.h"
+
+
+
 
 char * archivoaChar(FILE *archivo);
 
