@@ -177,12 +177,8 @@ podrian
 podriais
 yo
 aquel
-<<<<<<< HEAD
-que
-=======
 que
 el
 es
 se
 de
->>>>>>> origin/master

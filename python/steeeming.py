@@ -43,11 +43,11 @@ def dos():   #case2 en construccion
 def tres():
     str = input("Ingrese la palabra que desea buscar: ")
 
-    if (len(HashTable) == 0):
-        GenerarHashmap()
+    GenerarHashmap()
 
     try:
-        print ( str + ": " +HashTable.get( str.lower() ) )
+        Var = HashTable.get( str.lower() )
+        print(Var)
     except ValueError:
         print ( "La palabra no está en el documento!" )
 
@@ -99,6 +99,8 @@ def GenerarCorpus():
             Cont = Cont + y
         ListaRetorno.append([x, Cont])
 
+    ListaRetorno = SortList(ListaRetorno)
+    ListaRetorno = ListaRetorno[::-1]
     print( ListaRetorno )
 #    return ListaRetorno
 
@@ -151,6 +153,7 @@ def LeerStopWords():
 def default(): #  default
     print("Opcion Invalida")
 
+#Ordena una lista de manera ascendente.
 def SortList(lista):
     NuevaLista = []
     Index = 0
@@ -161,7 +164,6 @@ def SortList(lista):
         else:
             Index = 0
             for y in range(len(NuevaLista)):
-                print (NuevaLista)
                 if x[1] < NuevaLista[y][1]:
                     NuevaLista.insert(Index, x)
                     booleano = 0
