@@ -47,7 +47,6 @@ def tres():
 
     try:
         Var = HashTable.get( str.lower() )
-        print(Var)
     except ValueError:
         print ( "La palabra no está en el documento!" )
 
@@ -68,7 +67,6 @@ def GenerarFrecuencias(Documento, indice):
             if Temp.lower() in HashTable:
                 ListaTemp = HashTable.get(Temp.lower())
                 Numero = ListaTemp[indice] + 1
-                print (ListaTemp)
 
                 ListaTemp[indice] = Numero
                 HashTable[Temp.lower()] = ListaTemp
@@ -101,8 +99,12 @@ def GenerarCorpus():
 
     ListaRetorno = SortList(ListaRetorno)
     ListaRetorno = ListaRetorno[::-1]
-    print( ListaRetorno )
-#    return ListaRetorno
+#    ImprimirCorpus(ListaRetorno)
+    return ListaRetorno
+
+def ImprimirCorpus(Corpus):
+    for x in Corpus:
+        print ("{0:20} ==> {1:10}" .format(x[0], x[1]) )
 
 #Coge los documentos de la carpeta "file"
 def GenerarHashmap():
@@ -115,7 +117,6 @@ def GenerarHashmap():
     for x in List:
         GenerarFrecuencias(x, Cont)
         Cont = Cont + 1
-    print (HashTable)
     GenerarCorpus()
 
 #remueve los elementos de la lista 2 que estan la lista 1
