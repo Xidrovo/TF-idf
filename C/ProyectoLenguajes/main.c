@@ -15,7 +15,7 @@ struct listaPalabras{
 
 
 
-void archivoaChar(FILE *archivo, HashMap map, int indice);
+void ingresarArchivo(FILE *archivo, HashMap map, int indice);
 
 int main(int argc, char** argv) {
 
@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
 }
 
 //Convierte un archivo a un arreglo de chars, lo tokeniza e ingresa sus palabras a un hashmap
-void archivoaChar(FILE *archivo, HashMap map, int indice){ 
+void ingresarArchivo(FILE *archivo, HashMap map, int indice){ 
     int i;
     int doc[100];
     char * pch;
