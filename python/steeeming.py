@@ -124,8 +124,7 @@ def removeAll(lista1,lista2):
             if( x.lower() == y.lower() ):
                 lista1.remove(x)
 
-<<<<<<< HEAD
-=======
+
 #Retorna una nueva lista el cual ignora los números.
 def BorrarNumeros(lista):
     Index = 0
@@ -138,7 +137,7 @@ def BorrarNumeros(lista):
 
     return  NuevLista
 
->>>>>>> origin/master
+
 #Devuelve una lista con cada palabra del stopword
 def LeerStopWords():
     with open('custom\\stopwords.txt', 'r') as myfile:
