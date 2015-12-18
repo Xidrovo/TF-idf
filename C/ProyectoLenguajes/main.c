@@ -9,11 +9,6 @@
 #include "generic.h"
 #include "hashmap.h"
 
-struct listaPalabras{
-    
-};
-
-
 
 char * archivoaChar(FILE *archivo, HashMap map, int indice);
 
@@ -39,16 +34,6 @@ int main(int argc, char** argv) {
                 strcat(cadena2, dirOrigen);
                 strcat(cadena2, " C:/Users/MIRIAM/Documents/NetBeansProjects/C/ProyectoLenguajes/Carpetas/Destino /E");
                 system(cadena2);
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
                 //system( "ROBOCOPY " + cadena + " C:/Users/MIRIAM/Documents/NetBeansProjects/C/ProyectoLenguajes/Carpetas/Destino /E");              
                 break;
             case 2:
@@ -74,6 +59,7 @@ char * archivoaChar(FILE *archivo, HashMap map, int indice){
     int i;
     int doc[100];
     char * pch;
+    int aux[1000] = {0};
     fseek(archivo, 0, SEEK_END); 
     int tamanoArchivo = ftell(archivo); //nos devuelve el tamaño del texto
     char *str= malloc(tamanoArchivo);
@@ -94,8 +80,8 @@ char * archivoaChar(FILE *archivo, HashMap map, int indice){
         }
         else{                                   /*Si se encuentra en el hashmap, toma el value que es un array de enteros, le sma
                                                     1 en la posicion del documento, lo elimina del hashmap y lo vuelve a anadir*/
-            int aux[] = {0};
-            aux = (int)hashMapGet(map, pch);         //hacer el cast de Generic a int[]
+            
+            aux = hashMapGet(map, pch);         //hacer el cast de Generic a int[]
             aux[i]++;
             hashMapDel(map, pch);
             hashMapAdd(map, pch, aux);
