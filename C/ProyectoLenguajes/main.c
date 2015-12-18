@@ -81,14 +81,13 @@ void ingresarArchivo(FILE *archivo, HashMap map, int indice){
         else{                                   /*Si se encuentra en el hashmap, toma el value que es un array de enteros, le sma
                                                     1 en la posicion del documento, lo elimina del hashmap y lo vuelve a anadir*/
 
-            
-            aux = hashMapGet(map, pch);         //hacer el cast de Generic a int[]
 
             int aux[] = {0};
-            *aux = hashMapGet(map, pch);         //hacer el cast de Generic a int[]
+            *aux =*(int *) hashMapGet(map, pch);         //hacer el cast de Generic a int[]
             aux[i]++;
-            hashMapSet(map,pch,aux);
-            
+            //hashMapSet(map,pch,aux);
+            hashMapDel(map,pch);
+            hashMapAdd(map,pch,aux);
         }
         pch = strtok (NULL, " ,.-\n\"");
         

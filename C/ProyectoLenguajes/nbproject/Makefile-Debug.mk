@@ -53,7 +53,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS=-Ldist/Debug/Cygwin_4.x-Windows
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
