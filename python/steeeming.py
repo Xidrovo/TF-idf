@@ -104,7 +104,7 @@ def removeAll(lista1,lista2):
         for y in lista2:
             if( x.lower() == y.lower() ):
                 try:
-                    lista1.remove(y)
+                    lista1.remove(y.lower())
                 except ValueError:
                     print (x)
 
