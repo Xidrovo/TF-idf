@@ -61,8 +61,6 @@ def GenerarFrecuencias(Documento, indice):
         toLower(Palabras)#convierto los strings en palabras a minusculas
         toLower(StopWords)
         removeAll(Palabras,StopWords)  # palabras - Stopwords
-        print(StopWords)
-        print(Palabras)
         for x in Palabras:
             Temp = x
             ListaTemp = []
@@ -119,10 +117,12 @@ def GenerarHashmap():
 
 #remueve los elementos de la lista 2 que estan la lista 1
 def removeAll(lista1,lista2):
-    for x in lista1:
+    i=0
+    while i<len(lista1): #for x in lista1:
         for y in lista2:
-            if( x.lower() == y.lower() ):
-                lista1.remove(x)
+            if lista1[i].lower() == y.lower():
+                lista1.remove(lista1[i])
+        i += 1
 
 
 #Retorna una nueva lista el cual ignora los números.
