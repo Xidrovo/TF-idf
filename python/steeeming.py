@@ -118,10 +118,6 @@ def GenerarHashmap():
 
 #remueve los elementos de la lista 2 que estan la lista 1
 def removeAll(lista1,lista2):
-    """
-
-    :rtype: object
-    """
     for x in lista1:
         for y in lista2:
             if( x.lower() == y.lower() ):
