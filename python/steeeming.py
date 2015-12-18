@@ -54,18 +54,16 @@ def tres():
 #Este método requerirá el nombre del documento y un índice del doc.
 #Este método me dará un set con las palabras que no están en stopwords las cuales serán usadas para el hashmap.
 def GenerarFrecuencias(Documento, indice):
-    ListaTemp = []
     StopWords = LeerStopWords()
-    Numero = 0
-    setDePalabras = set()
     with open('files\\' + Documento, 'r') as myfile:
         data = myfile.read()
         Palabras = data.split()
         toLower(Palabras)#convierto los strings en palabras a minusculas
+        toLower(StopWords)
         removeAll(Palabras,StopWords)  # palabras - Stopwords
-
+        print(StopWords)
+        print(Palabras)
         for x in Palabras:
-            
             Temp = x
             ListaTemp = []
             if Temp.lower() in HashTable:
@@ -92,7 +90,6 @@ def toLower(lista):
 #Suma la frecuencia de las palabras por documentos (Not sure if this going to be usesfull~
 def GenerarCorpus():
     ListaRetorno = []
-    Cont = 0
     for x in HashTable.keys():
         Cont = 0
         for y in HashTable.get(x):
@@ -122,9 +119,6 @@ def removeAll(lista1,lista2):
         for y in lista2:
             if( x.lower() == y.lower() ):
                 lista1.remove(x)
-
-
-
 
 #Devuelve una lista con cada palabra del stopword
 def LeerStopWords():
