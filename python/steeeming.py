@@ -47,7 +47,7 @@ def tres():
         GenerarHashmap()
 
     try:
-        print ( HashTable.get( str.lower() ) )
+        print ( str + ": " +HashTable.get( str.lower() ) )
     except ValueError:
         print ( "La palabra no está en el documento!" )
 
@@ -85,7 +85,11 @@ def GenerarFrecuencias(Documento, indice):
 #no devuelve nada, modifica los valores de la lista directamente
 def toLower(lista):
     for x in range(len(lista)):
-        lista[x]=lista[x].lower()
+        try:
+            int(x)
+            lista.remove(x)
+        except Exception:
+            lista[x]=lista[x].lower()
 
 #Suma la frecuencia de las palabras por documentos (Not sure if this going to be usesfull~
 def GenerarCorpus():
@@ -120,6 +124,21 @@ def removeAll(lista1,lista2):
             if( x.lower() == y.lower() ):
                 lista1.remove(x)
 
+<<<<<<< HEAD
+=======
+#Retorna una nueva lista el cual ignora los números.
+def BorrarNumeros(lista):
+    Index = 0
+    NuevLista = []
+    for x in lista:
+        try:
+            int( float(x) )
+        except Exception:
+            NuevLista.append(x)
+
+    return  NuevLista
+
+>>>>>>> origin/master
 #Devuelve una lista con cada palabra del stopword
 def LeerStopWords():
     with open('custom\\stopwords.txt', 'r') as myfile:
