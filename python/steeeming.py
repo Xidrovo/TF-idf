@@ -236,6 +236,35 @@ def LeerStopWords():
 def default(): #  default
     print("Opcion Invalida")
 
+def TfIdf():
+    listaDeTamano = []
+    global List
+    global HashTable
+    List = os.listdir("files")
+    for x in List:
+        with open('files\\' + x, 'r') as myfile:
+            data = myfile.read()
+            Palabras = data.split()
+        listaDeTamano.append( len(Palabras) )
+
+    SoloGenerarHashmap()
+    listaPalabrasOrdenadas = GenerarCorpus()
+
+    for y in HashTable.keys():
+        TempList = HashTable.get(y)
+        for z in range(len(TempList)):
+            TempList[z] = TempList[z] / listaDeTamano[z]
+
+        HashTable[y] = TempList
+    TopDiez = []
+    Cont = 0
+    for NoOptimo in listaPalabrasOrdenadas:
+        TopDiez.append(NoOptimo)
+        Cont += 1
+        if (Cont >= 10):
+            break
+
+    ImprimirFullCorpus( listaPalabrasOrdenadas )
 #Ordena una lista de manera ascendente.
 def SortList(lista):
     NuevaLista = []
