@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
     return (EXIT_SUCCESS);
 }
 
-//Convierte un archivo a un arreglo de chars, lo tokeniza y retorna un arreglo con palabras
+//Convierte un archivo a un arreglo de chars, lo tokeniza e ingresa sus palabras a un hashmap
 void archivoaChar(FILE *archivo, HashMap map, int indice){ 
     int i;
     int doc[100];
