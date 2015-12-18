@@ -10,6 +10,10 @@ int main(int argc, char** argv) {
     int op, flag1;
     char * cadena = malloc(200);
     char * palabra = malloc(200);
+    FILE *f1 = fopen("hola.txt", "r");
+    *cadena= archivoaChar(f1);
+    
+    
     printf("Seleccione una opcion: \n 1.-Ingrese archivos \n 2.-Eliminar palabras \n 3.-Ingresar Palabras de Busqueda \n 4.-Mostrar Estadisticas \n 5.-Salir \n");
     scanf("%i", &op);
     while(op!=5){
@@ -42,3 +46,27 @@ int main(int argc, char** argv) {
     return (EXIT_SUCCESS);
 }
 
+
+//Convierte un archivo a un arreglo de chars y lo retorna
+char * archivoaChar(FILE *archivo){ 
+    int i;
+    fseek(archivo, 0, SEEK_END); 
+    int tamanoArchivo = ftell(archivo); //nos devuelve el tamaño del texto
+    char str[tamanoArchivo];
+    fseek(archivo,0,SEEK_SET);
+    for(i = 0; i < tamanoArchivo; i++)
+    {
+          fscanf(archivo, "%c", &str[i]);
+    }
+    printf("%c ", str[3]);
+    getchar();
+   
+  char * pch;
+  pch = strtok (str," ,.-");
+  while (pch != NULL)
+  {
+    printf ("%s\n",pch);
+    pch = strtok (NULL, " ,.-");
+  }  
+    return str;
+}
