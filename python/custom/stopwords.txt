@@ -182,3 +182,7 @@ el
 es
 se
 de
+y
+y
+o
+o

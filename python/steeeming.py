@@ -60,11 +60,8 @@ def GenerarFrecuencias(Documento, indice):
         Palabras = data.split()
         toLower(Palabras)#convierto los strings en palabras a minusculas
         toLower(StopWords)
-<<<<<<< HEAD
         Palabras=noPunct(Palabras)
-=======
         Palabras = BorrarNumeros(Palabras)
->>>>>>> origin/master
         removeAll(Palabras,StopWords)  # palabras - Stopwords
         for x in Palabras:
             Temp = x
@@ -88,7 +85,7 @@ def GenerarFrecuencias(Documento, indice):
 #para enterder mejor revisar documentacion de translate() y maketrans() ojo que es diferente para python 2
 def noPunct(palabra):
     palabra2=[]
-    punct=[";",":",".",",","\"","\\","?","¿","¡","!","#","%","&","/","1","2","3","4","5","6","7","8","9","0"," ","-","_","(",")"]#caracteres a ingnorar
+    punct=[";",":",".",",","\"","\\","?","¿","¡","!","#","%","&","/","1","2","3","4","5","6","7","8","9","0"," ","-","_","(",")","\"","\'","\´","\”","\“"]#caracteres a ingnorar
     punctuation="".join(punct)
     for x in palabra:
          palabra2.append(x.translate(str.maketrans("","",punctuation)))
@@ -113,20 +110,17 @@ def GenerarCorpus():
             Cont = Cont + y
         ListaRetorno.append([x, Cont])
 
-<<<<<<< HEAD
-    for x in ListaRetorno:
-        print(x[0], x[1])
-#    return ListaRetorno
-=======
+#    #return ListaRetorno
+
     ListaRetorno = SortList(ListaRetorno)
     ListaRetorno = ListaRetorno[::-1]
-#    ImprimirCorpus(ListaRetorno)
+    ImprimirCorpus(ListaRetorno)
     return ListaRetorno
 
 def ImprimirCorpus(Corpus):
     for x in Corpus:
         print ("{0:20} ==> {1:10}" .format(x[0], x[1]) )
->>>>>>> origin/master
+
 
 #Coge los documentos de la carpeta "file"
 def GenerarHashmap():
