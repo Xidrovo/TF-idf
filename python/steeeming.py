@@ -50,6 +50,7 @@ def GenerarFrecuencias(Documento, indice):
     with open('files\\' + Documento, 'r') as myfile:
         data = myfile.read()
         Palabras = data.split()
+        toLower(Palabras)
         removeAll(Palabras,StopWords)
 
         for x in Palabras:
@@ -70,6 +71,12 @@ def GenerarFrecuencias(Documento, indice):
                 HashTable[x.lower() ] = ListaTemp
 
         myfile.close()
+
+#Convierte los strings almacenados en un arreglo a minusculas
+#no devuelve nada, modifica los valores de la lista directamente
+def toLower(lista):
+    for x in range(len(lista)):
+        lista[x]=lista[x].lower()
 
 #Suma la frecuencia de las palabras por documentos (Not sure if this going to be usesfull~
 def GenerarCorpus():
@@ -100,6 +107,10 @@ def GenerarHashmap():
 
 #remueve los elementos de la lista 2 que estan la lista 1
 def removeAll(lista1,lista2):
+    """
+
+    :rtype: object
+    """
     for x in lista1:
         for y in lista2:
             if( x.lower() == y.lower() ):
