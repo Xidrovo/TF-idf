@@ -61,11 +61,11 @@ def GenerarFrecuencias(Documento, indice):
     with open('files\\' + Documento, 'r') as myfile:
         data = myfile.read()
         Palabras = data.split()
-        toLower(Palabras)
-        removeAll(Palabras,StopWords)
+        toLower(Palabras)#convierto los strings en palabras a minusculas
+        removeAll(Palabras,StopWords)  # palabras - Stopwords
 
         for x in Palabras:
-            Temp = ""
+            
             Temp = x
             ListaTemp = []
             if Temp.lower() in HashTable:
