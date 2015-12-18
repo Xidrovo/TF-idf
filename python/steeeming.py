@@ -60,9 +60,8 @@ def GenerarFrecuencias(Documento, indice):
         Palabras = data.split()
         toLower(Palabras)#convierto los strings en palabras a minusculas
         toLower(StopWords)
+        Palabras = BorrarNumeros(Palabras)
         removeAll(Palabras,StopWords)  # palabras - Stopwords
-        print(StopWords)
-        print(Palabras)
         for x in Palabras:
             Temp = x
             ListaTemp = []
@@ -150,7 +149,26 @@ def LeerStopWords():
 def default(): #  default
     print("Opcion Invalida")
 
+def SortList(lista):
+    NuevaLista = []
+    Index = 0
+    for x in lista:
+        booleano = 1
+        if (len(NuevaLista) == 0):
+            NuevaLista.append(x)
+        else:
+            Index = 0
+            for y in range(len(NuevaLista)):
+                print (NuevaLista)
+                if x[1] < NuevaLista[y][1]:
+                    NuevaLista.insert(Index, x)
+                    booleano = 0
+                    break
+                Index += 1
 
+            if (booleano == 1):
+                NuevaLista.append(x)
+    return NuevaLista
 
 #switch
 # uso un diccionario (python) como un switch (c )
