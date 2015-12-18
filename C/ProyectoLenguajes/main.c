@@ -15,7 +15,7 @@ struct listaPalabras{
 
 
 
-char * archivoaChar(FILE *archivo, HashMap map, int indice);
+void archivoaChar(FILE *archivo, HashMap map, int indice);
 
 int main(int argc, char** argv) {
 
@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
 }
 
 //Convierte un archivo a un arreglo de chars, lo tokeniza y retorna un arreglo con palabras
-char * archivoaChar(FILE *archivo, HashMap map, int indice){ 
+void archivoaChar(FILE *archivo, HashMap map, int indice){ 
     int i;
     int doc[100];
     char * pch;
@@ -95,17 +95,15 @@ char * archivoaChar(FILE *archivo, HashMap map, int indice){
         else{                                   /*Si se encuentra en el hashmap, toma el value que es un array de enteros, le sma
                                                     1 en la posicion del documento, lo elimina del hashmap y lo vuelve a anadir*/
             int aux[] = {0};
-            aux = (int)hashMapGet(map, pch);         //hacer el cast de Generic a int[]
+            *aux = hashMapGet(map, pch);         //hacer el cast de Generic a int[]
             aux[i]++;
-            hashMapDel(map, pch);
-            hashMapAdd(map, pch, aux);
+            hashMapSet(map,pch,aux);
             
         }
         pch = strtok (NULL, " ,.-\n\"");
         
     }
     
-    return str;
     
 }
 
