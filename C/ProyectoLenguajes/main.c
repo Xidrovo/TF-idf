@@ -1,23 +1,19 @@
 
 
-#include <ctype.h>       /* for isupper, islower, tolower */
+#include <ctype.h>       
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include "tinydir.h"
-
-
-
-
-
 int main(int argc, char** argv) {
     
-    tinydir_dir dir;
-    
-
     int op, flag1;
     char * cadena = malloc(200);
     char * palabra = malloc(200);
+    FILE *f1 = fopen("hola.txt", "r");
+    *cadena= archivoaChar(f1);
+    
+    
     printf("Seleccione una opcion: \n 1.-Ingrese archivos \n 2.-Eliminar palabras \n 3.-Ingresar Palabras de Busqueda \n 4.-Mostrar Estadisticas \n 5.-Salir \n");
     scanf("%i", &op);
     while(op!=5){
@@ -26,22 +22,11 @@ int main(int argc, char** argv) {
                 printf("Ingrese el directorio de los archivos: \n");
                 scanf("%s", cadena);
                 printf("%s", cadena);
-                tinydir_open(&dir, "/path/to/dir");
-                while (dir.has_next)
-                {
-                    tinydir_file file;
-                    tinydir_readfile(&dir, &file);
-
-                    printf("%s", file.name);
-                    if (file.is_dir)
-                    {
-                        printf("/");
-                    }
-                    printf("\n");
-
-                    tinydir_next(&dir);
-                }
-                tinydir_close(&dir);
+                
+                
+                system( "ROBOCOPY " + cadena + " C:/Users/MIRIAM/Documents/NetBeansProjects/C/ProyectoLenguajes/Carpetas/Destino /E");              
+                
+                
                 break;
             case 2:
                 printf("Ingrese las palabras a eliminar: \n");
@@ -61,3 +46,27 @@ int main(int argc, char** argv) {
     return (EXIT_SUCCESS);
 }
 
+
+//Convierte un archivo a un arreglo de chars y lo retorna
+char * archivoaChar(FILE *archivo){ 
+    int i;
+    fseek(archivo, 0, SEEK_END); 
+    int tamanoArchivo = ftell(archivo); //nos devuelve el tamaño del texto
+    char str[tamanoArchivo];
+    fseek(archivo,0,SEEK_SET);
+    for(i = 0; i < tamanoArchivo; i++)
+    {
+          fscanf(archivo, "%c", &str[i]);
+    }
+    printf("%c ", str[3]);
+    getchar();
+   
+  char * pch;
+  pch = strtok (str," ,.-");
+  while (pch != NULL)
+  {
+    printf ("%s\n",pch);
+    pch = strtok (NULL, " ,.-");
+  }  
+    return str;
+}
