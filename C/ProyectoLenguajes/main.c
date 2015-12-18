@@ -1,20 +1,12 @@
 
 
-#include <ctype.h>       /* for isupper, islower, tolower */
+#include <ctype.h>       
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include "tinydir.h"
-
-
-
-
-
 int main(int argc, char** argv) {
     
-    tinydir_dir dir;
-    
-
     int op, flag1;
     char * cadena = malloc(200);
     char * palabra = malloc(200);
@@ -26,22 +18,11 @@ int main(int argc, char** argv) {
                 printf("Ingrese el directorio de los archivos: \n");
                 scanf("%s", cadena);
                 printf("%s", cadena);
-                tinydir_open(&dir, "/path/to/dir");
-                while (dir.has_next)
-                {
-                    tinydir_file file;
-                    tinydir_readfile(&dir, &file);
-
-                    printf("%s", file.name);
-                    if (file.is_dir)
-                    {
-                        printf("/");
-                    }
-                    printf("\n");
-
-                    tinydir_next(&dir);
-                }
-                tinydir_close(&dir);
+                
+                
+                system( "ROBOCOPY " + cadena + " C:/Users/MIRIAM/Documents/NetBeansProjects/C/ProyectoLenguajes/Carpetas/Destino /E");              
+                
+                
                 break;
             case 2:
                 printf("Ingrese las palabras a eliminar: \n");
