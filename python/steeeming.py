@@ -2,6 +2,7 @@ __author__ = 'CltControl'
 import shutil
 import os
 import snowballstemmer
+import string
 
 #-----Variables-----
 op = 1 # variable para switch
@@ -60,6 +61,7 @@ def GenerarFrecuencias(Documento, indice):
         Palabras = data.split()
         toLower(Palabras)#convierto los strings en palabras a minusculas
         toLower(StopWords)
+        Palabras=noPunct(Palabras)
         removeAll(Palabras,StopWords)  # palabras - Stopwords
         for x in Palabras:
             Temp = x
@@ -78,6 +80,17 @@ def GenerarFrecuencias(Documento, indice):
                 HashTable[x.lower() ] = ListaTemp
 
         myfile.close()
+
+#elimino las puntuaciondes de todos los documentos
+#recibe una lista de  strings a estos les quita los signos de puntuacion y retorna una lista de strings sin puntuaciones
+#para enterder mejor revisar documentacion de translate() y maketrans() ojo que es diferente para python 2
+def noPunct(palabra):
+    palabra2=[]
+    punct=[";",":",".",",","\"","\\","?","¿","¡","!","#","%","&","/","1","2","3","4","5","6","7","8","9","0"," ","-","_","(",")"]#caracteres a ingnorar
+    punctuation="".join(punct)
+    for x in palabra:
+         palabra2.append(x.translate(str.maketrans("","",punctuation)))
+    return palabra2
 
 #Convierte los strings almacenados en un arreglo a minusculas
 #no devuelve nada, modifica los valores de la lista directamente
@@ -98,7 +111,8 @@ def GenerarCorpus():
             Cont = Cont + y
         ListaRetorno.append([x, Cont])
 
-    print( ListaRetorno )
+    for x in ListaRetorno:
+        print(x[0], x[1])
 #    return ListaRetorno
 
 #Coge los documentos de la carpeta "file"
