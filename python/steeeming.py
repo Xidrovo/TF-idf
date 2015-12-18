@@ -1,10 +1,17 @@
 __author__ = 'CltControl'
 import shutil
 import os
+import snowballstemmer
 
+#-----Variables-----
 op = 1 # variable para switch
 HashTable = {} #Hashmap de frecuencias
 MAXDOC = 0
+stemmer = snowballstemmer.stemmer('spanish')
+
+#-------------------
+
+
 #Creacion de archivo con stopwords modificadas
 # La idea es tener 2 archivos de stopwords uno que tendra las stopwords por default
 # y otro que tendra las de por default mas las añadidas por el usuario a travez de la
@@ -52,7 +59,6 @@ def GenerarFrecuencias(Documento, indice):
             if Temp.lower() in HashTable:
                 ListaTemp = HashTable.get(Temp.lower())
                 Numero = ListaTemp[indice] + 1
-                print (Numero)
                 print (ListaTemp)
 
                 ListaTemp[indice] = Numero
@@ -65,6 +71,7 @@ def GenerarFrecuencias(Documento, indice):
 
         myfile.close()
 
+#Suma la frecuencia de las palabras por documentos (Not sure if this going to be usesfull~
 def GenerarCorpus():
     ListaRetorno = []
     Cont = 0
@@ -95,8 +102,13 @@ def GenerarHashmap():
 def removeAll(lista1,lista2):
     for x in lista1:
         for y in lista2:
-            if(x==y):
-                lista1.remove(y)
+            if( x.lower() == y.lower() ):
+                try:
+                    lista1.remove(y)
+                except ValueError:
+                    print (x)
+
+
 
 
 #Devuelve una lista con cada palabra del stopword
@@ -119,7 +131,7 @@ switch = {
         '1': uno,
         '0': cero,
         '2': dos,
-        '3': GenerarHashmap
+        '4': GenerarHashmap
         }
 
 #Opciones del menu principal
