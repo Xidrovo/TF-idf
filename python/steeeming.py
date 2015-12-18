@@ -2,14 +2,17 @@ __author__ = 'CltControl'
 import shutil
 import os
 import snowballstemmer
-import string
+#import string
+
 
 #-----Variables-----
 op = 1 # variable para switch
 HashTable = {} #Hashmap de frecuencias
 MAXDOC = 0
-stemmer = snowballstemmer.stemmer('spanish')
+stemmer = snowballstemmer.stemmer('spanish') #selecciona el idioma para steeming
 
+activarStem="0"
+buscar=""
 #-------------------
 
 
@@ -42,16 +45,20 @@ def dos():   #case2 en construccion
     f.close()
 
 def tres():
-    strin = input("Ingrese la palabra que desea buscar: ")
 
+    global buscar
+    buscar = input("Ingrese la palabra que desea buscar: ")
+    print("Desea Activar el Stemming?\n Escriba 1 para activar\nEscriba cualquier otra cosa para desactivar")
+    global activarStem
+    activarStem = input()
     SoloGenerarHashmap()
     Var = ""
 
     try:
-        for x in HashTable.get((strin)):
+        for x in HashTable.get((buscar)):
             Var = Var + " " + str(x)
 
-        print("{0:20} ==> {1:10}".format(strin, Var))
+        print("{0:20} ==> {1:10}".format(buscar, Var))
     except Exception:
         print ( "La palabra no está en el documento!" )
 
@@ -59,7 +66,9 @@ def tres():
 #Este método me dará un set con las palabras que no están en stopwords las cuales serán usadas para el hashmap.
 def GenerarFrecuencias(Documento, indice):
     StopWords = LeerStopWords()
+    global Palabras
     with open('files\\' + Documento, 'r') as myfile:
+        global Palabras
         data = myfile.read()
         Palabras = data.split()
         toLower(Palabras)#convierto los strings en palabras a minusculas
@@ -67,6 +76,21 @@ def GenerarFrecuencias(Documento, indice):
         Palabras=noPunct(Palabras)
         Palabras = BorrarNumeros(Palabras)
         removeAll(Palabras,StopWords)  # palabras - Stopwords
+
+        global activarStem #activo o desactivo el steming
+        global buscar
+        if activarStem=="1":
+            buscar=stemmer.stemWord(buscar)
+            for x in range(len(Palabras)):
+                Palabras[x] = stemmer.stemWord(Palabras[x])
+        else:
+            Palabras.clear()
+            Palabras = data.split()
+            toLower(Palabras)#convierto los strings en palabras a minusculas
+            toLower(StopWords)
+            Palabras=noPunct(Palabras)
+            Palabras = BorrarNumeros(Palabras)
+            removeAll(Palabras,StopWords)  # palabras - Stopwords
         for x in Palabras:
             Temp = x
             ListaTemp = []
@@ -159,7 +183,6 @@ def GenerarHashmap():
 #Ls msma func{on que generar hasmap... con la diferencia que esta no la imprime.
 def SoloGenerarHashmap():
     List = os.listdir("files")
-
     Cont = 0
     global HashTable
     HashTable = {}
