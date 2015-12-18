@@ -40,6 +40,17 @@ def dos():   #case2 en construccion
     f.write(str + "\n")
     f.close()
 
+def tres():
+    str = input("Ingrese la palabra que desea buscar: ")
+
+    if (len(HashTable) == 0):
+        GenerarHashmap()
+
+    try:
+        print ( HashTable.get( str.lower() ) )
+    except ValueError:
+        print ( "La palabra no está en el documento!" )
+
 #Este método requerirá el nombre del documento y un índice del doc.
 #Este método me dará un set con las palabras que no están en stopwords las cuales serán usadas para el hashmap.
 def GenerarFrecuencias(Documento, indice):
@@ -114,10 +125,7 @@ def removeAll(lista1,lista2):
     for x in lista1:
         for y in lista2:
             if( x.lower() == y.lower() ):
-                try:
-                    lista1.remove(y.lower())
-                except ValueError:
-                    print (x)
+                lista1.remove(x)
 
 
 
@@ -142,6 +150,7 @@ switch = {
         '1': uno,
         '0': cero,
         '2': dos,
+        '3': tres,
         '4': GenerarHashmap
         }
 
