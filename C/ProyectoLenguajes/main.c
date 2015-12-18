@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include "tinydir.h"
+
+char * archivoaChar(FILE *archivo);
+
 int main(int argc, char** argv) {
     
     int op, flag1;
@@ -24,7 +27,7 @@ int main(int argc, char** argv) {
                 printf("%s", cadena);
                 
                 
-                system( "ROBOCOPY " + cadena + " C:/Users/MIRIAM/Documents/NetBeansProjects/C/ProyectoLenguajes/Carpetas/Destino /E");              
+                //system( "ROBOCOPY " + cadena + " C:/Users/MIRIAM/Documents/NetBeansProjects/C/ProyectoLenguajes/Carpetas/Destino /E");              
                 
                 
                 break;
@@ -52,21 +55,13 @@ char * archivoaChar(FILE *archivo){
     int i;
     fseek(archivo, 0, SEEK_END); 
     int tamanoArchivo = ftell(archivo); //nos devuelve el tamaño del texto
-    char str[tamanoArchivo];
+    char *str= malloc(200);
     fseek(archivo,0,SEEK_SET);
     for(i = 0; i < tamanoArchivo; i++)
     {
           fscanf(archivo, "%c", &str[i]);
     }
-    printf("%c ", str[3]);
     getchar();
-   
-  char * pch;
-  pch = strtok (str," ,.-");
-  while (pch != NULL)
-  {
-    printf ("%s\n",pch);
-    pch = strtok (NULL, " ,.-");
-  }  
     return str;
 }
+
