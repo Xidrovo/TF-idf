@@ -5,12 +5,17 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/types.h>
-//#include "tinydir.h"
-#include "generic.h"
-#include "hashmap.h"
+#include "uthash.h"
+
+typedef struct Lista {
+    char *nombrePalabra;
+    int *frecuencias;
+    UT_hash_handle hh; 
+    
+}Lista;
 
 
-void ingresarArchivo(FILE *archivo, HashMap map, int indice);
+void ingresarArchivo(FILE *archivo, Lista lista, int indice);
 
 int main(int argc, char** argv) {
 
@@ -19,6 +24,7 @@ int main(int argc, char** argv) {
     char * cadena = malloc(200);
     char * cadena2 = malloc(200);
     char * palabra = malloc(200);
+    struct Lista *listaPalabras = NULL; 
     FILE *f1 = fopen("Doc2.txt", "r");
     //cadena = archivoaChar(f1);
     op = 0;
@@ -32,7 +38,7 @@ int main(int argc, char** argv) {
                 scanf("%s", dirOrigen);
                 strcat(cadena2, "Robocopy");
                 strcat(cadena2, dirOrigen);
-                strcat(cadena2, " C:/Users/MIRIAM/Documents/NetBeansProjects/C/ProyectoLenguajes/Carpetas/Destino /E");
+                strcat(cadena2, "C:Users/Home/Documents/GitHub/TF-idf/C/ProyectoLenguajes/Carpetas/Destino/Destino/Destino /E");
                 system(cadena2);
                 //system( "ROBOCOPY " + cadena + " C:/Users/MIRIAM/Documents/NetBeansProjects/C/ProyectoLenguajes/Carpetas/Destino /E");              
                 break;
@@ -49,13 +55,13 @@ int main(int argc, char** argv) {
         }
     }
     
-    
+
     
     return (EXIT_SUCCESS);
 }
 
 //Convierte un archivo a un arreglo de chars, lo tokeniza e ingresa sus palabras a un hashmap
-void ingresarArchivo(FILE *archivo, HashMap map, int indice){ 
+void ingresarArchivo(FILE *archivo,Lista lista, int indice){ 
     int i;
     int doc[100];
     char * pch;
@@ -71,15 +77,23 @@ void ingresarArchivo(FILE *archivo, HashMap map, int indice){
     }
     //printf("%s", str);
     pch = strtok (str," ,.-\n");//Tokeniza el arreglo de chars generado arriba
+    
     while (pch != NULL)
     {
-        //printf ("%s\n",pch);
+        while(lista[i]){
+            if(pch == lista.palabras->nombrePalabra){
+            
+            }
+        }
+        lista.palabras->nombrePalabra = pch;
+       
+                //printf ("%s\n",pch);
         if(hashMapGet(map, pch)==NULL){     //Si esa palabra no está en el hashmap
             doc[i]=1;                         //Indica que aparece 1 vez en el documento i
             hashMapAdd(map, pch, doc);        //Anade la palabra y su array 
         }
-        else{                                   /*Si se encuentra en el hashmap, toma el value que es un array de enteros, le sma
-                                                    1 en la posicion del documento, lo elimina del hashmap y lo vuelve a anadir*/
+        else{                                   //Si se encuentra en el hashmap, toma el value que es un array de enteros, le sma
+                                                   // 1 en la posicion del documento, lo elimina del hashmap y lo vuelve a anadir
 
 
             int aux[] = {0};
@@ -89,12 +103,22 @@ void ingresarArchivo(FILE *archivo, HashMap map, int indice){
             hashMapDel(map,pch);
             hashMapAdd(map,pch,aux);
         }
-        pch = strtok (NULL, " ,.-\n\"");
         
-    }
-    
-    
+      pch = strtok (NULL, " ,.-\n\"");
+        
+   }
+}
+  
+void hashMapAdd(char *name, int *frecuencias) {
+    struct Lista *s;
+    s = malloc(sizeof(struct Lista));
+    s->nombrePalabra= name;
+    strcpy(s->nombrePalabra, name);
+    HASH_ADD( listaPalabras, nombrePalabra, s );  /* id: name of key field */
 }
 
-
-
+struct Lista *buscarPalabra(char *name) {
+    struct Lista *s;
+    HASH_FIND(listaPalabras, *name, s );  /* s: output pointer */
+    return s;
+}
