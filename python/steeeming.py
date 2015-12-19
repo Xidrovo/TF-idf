@@ -2,7 +2,7 @@ __author__ = 'CltControl'
 import shutil
 import os
 import snowballstemmer
-#import string
+import math
 
 
 #-----Variables-----
@@ -18,15 +18,15 @@ buscar=""
 
 #Creacion de archivo con stopwords modificadas
 # La idea es tener 2 archivos de stopwords uno que tendra las stopwords por default
-# y otro que tendra las de por default mas las añadidas por el usuario a travez de la
+# y otro que tendra las de por default mas las anadidas por el usuario a travez de la
 # segunda opcion del menu principal
 if not os.path.exists("custom"):
     os.makedirs("custom")
 shutil.copy("stopwords.txt", "custom\\stopwords.txt")
 
 # Creacion de carpeta para guardar los archivos a examinar
-if not os.path.exists("files"):
-    os.makedirs("files")
+#if not os.path.exists("files"):
+#    os.makedirs("files")
 
 #Menu principal
 
@@ -36,7 +36,7 @@ def cero(): #case 0
 
 def uno():    #case 1
     a=input("Ingrese el directorio de los archivos")
-    shutil.copytree(a,"\\files")
+    shutil.copytree(a,"files")
 
 def dos():   #case2 en construccion
     f=open("custom\\stopwords.txt","a")
@@ -60,10 +60,10 @@ def tres():
 
         print("{0:20} ==> {1:10}".format(buscar, Var))
     except Exception:
-        print ( "La palabra no está en el documento!" )
+        print ( "La palabra no esta en el documento!" )
 
-#Este método requerirá el nombre del documento y un índice del doc.
-#Este método me dará un set con las palabras que no están en stopwords las cuales serán usadas para el hashmap.
+#Este metodo requerira el nombre del documento y un indice del doc.
+#Este metodo me dara un set con las palabras que no estan en stopwords las cuales seran usadas para el hashmap.
 def GenerarFrecuencias(Documento, indice):
     StopWords = LeerStopWords()
     global Palabras
@@ -113,7 +113,7 @@ def GenerarFrecuencias(Documento, indice):
 #para enterder mejor revisar documentacion de translate() y maketrans() ojo que es diferente para python 2
 def noPunct(palabra):
     palabra2=[]
-    punct=[";",":",".",",","\"","\\","?","¿","¡","!","#","%","&","/","1","2","3","4","5","6","7","8","9","0"," ","-","_","(",")","\"","\'","\´","\”","\“"]#caracteres a ingnorar
+    punct=[";",":",".",",","\"","\\","?","¿","¡","!","#","%","&","/","1","2","3","4","5","6","7","8","9","0"," ","-","_","(",")","\"","\'","\´","\”","\“"]
     punctuation="".join(punct)
     for x in palabra:
          palabra2.append(x.translate(str.maketrans("","",punctuation)))
@@ -150,13 +150,15 @@ def ImprimirCorpus(Corpus):
 #Imprime tooodas las palabras con su frecuencia por documento
 def ImprimirFullCorpus(Corpus):
     esTitulo = True
+    Cont = 0
     for Palabra in Corpus:
+        Cont += 1
         listaTemp = HashTable.get(Palabra[0])
         strTemp = ""
         primerTexto = "Plabras: \t\t\t\t\t\t\t\t"
         temp2 = ""
         for y in List:
-            temp2 = temp2 + "{0:15}".format(str(y))
+            temp2 = temp2 + "{0:30}".format(str(y))
         primerTexto = primerTexto + temp2
         for x in listaTemp:
             strTemp = strTemp + "\t\t\t\t" + str(x)
@@ -165,6 +167,8 @@ def ImprimirFullCorpus(Corpus):
             print (primerTexto)
             esTitulo = False
         print ("{0:20} ==> {1:10}".format(Palabra[0], strTemp ) )
+        if (Cont >= 50):
+            break
 
 #Coge los documentos de la carpeta "file"
 def GenerarHashmap():
@@ -236,6 +240,15 @@ def LeerStopWords():
 def default(): #  default
     print("Opcion Invalida")
 
+# def palabraInDocs(palabra):
+#     Cont = 0
+#     lista = HashTable.get(palabra)
+#     for x in (len(HashTable.get(palabra))):
+#         if lista > 0:
+#             Cont += 1
+
+#    return Cont
+
 def TfIdf():
     listaDeTamano = []
     global List
@@ -252,8 +265,10 @@ def TfIdf():
 
     for y in HashTable.keys():
         TempList = HashTable.get(y)
+        N = 0
         for z in range(len(TempList)):
             TempList[z] = TempList[z] / listaDeTamano[z]
+            N = N + listaDeTamano[z]
 
         HashTable[y] = TempList
     TopDiez = []
@@ -263,8 +278,11 @@ def TfIdf():
         Cont += 1
         if (Cont >= 10):
             break
+    # for idf in TopDiez:
+    #     for res in idf:
+    #         #math.log(N/palabraInDocs(y),10) #AQUIIIIIIIIIIII
 
-    ImprimirFullCorpus( listaPalabrasOrdenadas )
+    ImprimirFullCorpus( TopDiez )
 #Ordena una lista de manera ascendente.
 def SortList(lista):
     NuevaLista = []
@@ -293,18 +311,21 @@ switch = {
         '0': cero,
         '2': dos,
         '3': tres,
-        '4': GenerarHashmap
+        '4': GenerarHashmap,
+        '5': TfIdf
         }
 
 #Opciones del menu principal
 while (op!='0'):
+    global activarStem
+    activarStem="0"
     op=input("""
     Selecione una opcion:
     1.-Ingrese archivos
     2.-Eliminar palabras
     3.-Ingresar Palabras de Busqueda
     4.- Mostrar Estadisticas
-
+    5.- Tf
     """)
 
     try:
