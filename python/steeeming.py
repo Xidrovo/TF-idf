@@ -1,8 +1,14 @@
+
 __author__ = 'CltControl'
 import shutil
 import os
 import snowballstemmer
-import math
+from matplotlib.pyplot import *
+from pylab import *
+
+#descarguen matplotlib!!!!!!
+#descarguen numpy
+#http://www.lfd.uci.edu/~gohlke/pythonlibs/   --- python -m pip install nombre.whl
 
 
 #-----Variables-----
