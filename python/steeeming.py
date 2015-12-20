@@ -3,10 +3,10 @@ __author__ = 'CltControl'
 import shutil
 import os
 import snowballstemmer
-import matplotlib.pyplot as plt
-from matplotlib.dates import date2num
-import datetime
-import plotly.plotly as py
+#import matplotlib.pyplot as plt
+#from matplotlib.dates import date2num
+#import datetime
+#import plotly.plotly as py
 import math
 
 #descarguen matplotlib!!!!!!
@@ -144,7 +144,7 @@ def GenerarCorpus():
     for x in HashTable.keys():
         Cont = 0
         for y in HashTable.get(x):
-            Cont = Cont + y
+            Cont = Cont + float(y)
         ListaRetorno.append([x, Cont])
 
     ListaRetorno = SortList(ListaRetorno)
@@ -164,10 +164,10 @@ def ImprimirFullCorpus(Corpus):
         Cont += 1
         listaTemp = HashTable.get(Palabra[0])
         strTemp = ""
-        primerTexto = "Plabras: \t\t\t\t\t\t\t\t"
+        primerTexto = "Palabras: \t\t\t\t\t\t\t\t"
         temp2 = ""
         for y in List:
-            temp2 = temp2 + "{0:30}".format(str(y))
+            temp2 = temp2 + "{0:20}".format(str(y))
         primerTexto = primerTexto + temp2
         for x in listaTemp:
             strTemp = strTemp + "\t\t\t\t" + str(x)
@@ -193,6 +193,7 @@ def GenerarHashmap():
         Cont = Cont + 1
     listaPalabrasOrdenadas = GenerarCorpus()
     ImprimirFullCorpus(listaPalabrasOrdenadas)
+
 #Ls msma func{on que generar hasmap... con la diferencia que esta no la imprime.
 def SoloGenerarHashmap():
     List = os.listdir("files")
@@ -222,6 +223,7 @@ def removeAll(lista1,lista2):
                 break
 
         i += 1
+
 def Graficos():
     y=0
 
@@ -261,41 +263,71 @@ def default(): #  default
 
 #    return Cont
 
+
+# listaDeTamano = []
+    # global List
+    # global HashTable
+    # List = os.listdir("files")
+    # for x in List:
+    #     with open('files\\' + x, 'r') as myfile:
+    #         data = myfile.read()
+    #         Palabras = data.split()
+    #     listaDeTamano.append( len(Palabras) )
+    #
+    # SoloGenerarHashmap()
+    # listaPalabrasOrdenadas = GenerarCorpus()
+    #
+    # for y in HashTable.keys():
+    #     TempList = HashTable.get(y)
+    #     N = 0
+    #     for z in range(len(TempList)):
+    #         TempList[z] = TempList[z] / listaDeTamano[z]
+    #         TempList[z] = format(TempList[z], '.4f')
+    #         N = N + listaDeTamano[z]
+    #
+    #     HashTable[y] = TempList
+    # TopDiez = []
+    # Cont = 0
+    # for NoOptimo in listaPalabrasOrdenadas:
+    #     TopDiez.append(NoOptimo)
+    #
+    # SortList(TopDiez)
+    # print (TopDiez)
+    #
+    # ImprimirFullCorpus( TopDiez )
+
 def TfIdf():
-    listaDeTamano = []
-    global List
-    global HashTable
-    List = os.listdir("files")
-    for x in List:
-        with open('files\\' + x, 'r') as myfile:
-            data = myfile.read()
-            Palabras = data.split()
-        listaDeTamano.append( len(Palabras) )
-
     SoloGenerarHashmap()
-    listaPalabrasOrdenadas = GenerarCorpus()
-
-    for y in HashTable.keys():
-        TempList = HashTable.get(y)
-        N = 0
-        for z in range(len(TempList)):
-            TempList[z] = TempList[z] / listaDeTamano[z]
-            N = N + listaDeTamano[z]
-
-        HashTable[y] = TempList
-    TopDiez = []
+    listaTemporal = []
+    topDiez = []
     Cont = 0
-    for NoOptimo in listaPalabrasOrdenadas:
-        TopDiez.append(NoOptimo)
+    global  List
+    List = listaDeDocumentos()
+    for x in listaDeDocumentos():
+        continuar = True
+        with open('files\\' + x, 'r') as myfile:
+             data = myfile.read()
+             Palabras = data.split()
+        for key in HashTable.keys():
+            listaTemporal = HashTable.get(key.lower())
+            listaTemporal[Cont] = tfIdf(key, Cont)
+            HashTable[key] = listaTemporal
         Cont += 1
+    listaDePalabrasOrdenadas = GenerarCorpus()
+
+    Cont = 0
+    for ignore in listaDePalabrasOrdenadas:
+        topDiez.append(ignore)
         if (Cont >= 10):
             break
+        Cont += 1
 
+    ImprimirFullCorpus(topDiez)
 
-    ImprimirFullCorpus( TopDiez )
 
 #recibe un "String" que representa una palabra
 #devuleve el IDF de esa palabra en el corppus
+#Idf retorna lo siguiente: log ((CantidadDeDocumentos / EnCuantasDeEsaLaPalabraAparece))
 def calcularIDF(palabra):
     docsWithPalabra=0
     listaTemp = []
@@ -304,24 +336,42 @@ def calcularIDF(palabra):
         for x in range(len(listaTemp)):
             if listaTemp[x]!= 0 :
                 docsWithPalabra += 1
-        return math.log(len(listaTemp/docsWithPalabra),10)
+        if (docsWithPalabra != 0):
+            return math.log(len( listaDeDocumentos() )/docsWithPalabra,10)
+        else:
+            return 0
     else:
         return 0
 
+#Retorna una lista con todos los documentos de la carpeta 'files'
+def listaDeDocumentos():
+    listaDeDocs = os.listdir("files")
+    return listaDeDocs
+
 #EL TF alcula el numero de veces que aparece una palabra en un documento
 #recibe una palabra (String) y un int que representa el indice del documento en el hashmap
+#Según tengo entedido... el Tf retorna la frecuencia de esa palabra relativa a la cantidad de palabras existentes en el doc.
+#Si una palabra se repite 3 veces, y el doc tiene 100 palabras. Su tf es "3/100"
+#O eso dice en este link: http://www.tfidf.com/
 def calcularTf(palabra, documento):
+    Lista = os.listdir("files")
+    CantDePalabras = 0
+    #En esta parte hago el conteo de cuantas palabras hay dado un documento.
+    with open('files\\' + Lista[documento], 'r') as myfile:
+        data = myfile.read()
+        Palabras = data.split()
+    CantDePalabras = len(Palabras)
+
     if palabra in HashTable:
         listaTemp = HashTable.get(palabra)
-        return listaTemp[documento]
-
+        return format(float(listaTemp[documento])/CantDePalabras, '0.6f')
     else:
         return 0
 #calcula el tfIdf
 #recibe un string que representa una palabra y un entero que representa el documento en el que se va a calcular el tdfIdf
 #devuelve el Tdf-Idf
 def tfIdf(palabra, documento):
-    return calcularTf(palabra,documento) * calcularIDF(palabra)
+    return (format(float(calcularTf(palabra,documento)) * float(calcularIDF(palabra)), '0.6f'))
 
 
 
