@@ -167,7 +167,7 @@ def ImprimirFullCorpus(Corpus):
         primerTexto = "Palabras: \t\t\t\t\t\t\t\t"
         temp2 = ""
         for y in List:
-            temp2 = temp2 + "{0:20}".format(str(y))
+            temp2 = temp2 + "{0:15}".format(str(y))
         primerTexto = primerTexto + temp2
         for x in listaTemp:
             strTemp = strTemp + "\t\t\t\t" + str(x)
@@ -354,17 +354,9 @@ def listaDeDocumentos():
 #Si una palabra se repite 3 veces, y el doc tiene 100 palabras. Su tf es "3/100"
 #O eso dice en este link: http://www.tfidf.com/
 def calcularTf(palabra, documento):
-    Lista = os.listdir("files")
-    CantDePalabras = 0
-    #En esta parte hago el conteo de cuantas palabras hay dado un documento.
-    with open('files\\' + Lista[documento], 'r') as myfile:
-        data = myfile.read()
-        Palabras = data.split()
-    CantDePalabras = len(Palabras)
-
     if palabra in HashTable:
         listaTemp = HashTable.get(palabra)
-        return format(float(listaTemp[documento])/CantDePalabras, '0.6f')
+        return listaTemp[documento]
     else:
         return 0
 #calcula el tfIdf
