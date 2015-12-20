@@ -290,9 +290,7 @@ def TfIdf():
         Cont += 1
         if (Cont >= 10):
             break
-    #for idf in TopDiez:
-    #     for res in idf:
-    #         math.log(N/frecWordInCorpus(y),10) #AQUIIIIIIIIIIII
+
 
     ImprimirFullCorpus( TopDiez )
 
