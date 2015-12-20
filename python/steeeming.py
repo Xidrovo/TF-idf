@@ -319,7 +319,9 @@ def calcularTf(palabra, documento):
 
     else:
         return 0
-
+#calcula el tfIdf
+#recibe un string que representa una palabra y un entero que representa el documento en el que se va a calcular el tdfIdf
+#devuelve el Tdf-Idf
 def tfIdf(palabra, documento):
     return calcularTf(palabra,documento) * calcularIDF(palabra)
 
