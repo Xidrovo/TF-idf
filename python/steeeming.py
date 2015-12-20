@@ -265,49 +265,8 @@ def LeerStopWords():
 
 def default(): #  default
     print("Opcion Invalida")
-
-# def palabraInDocs(palabra):
-#     Cont = 0
-#     lista = HashTable.get(palabra)
-#     for x in (len(HashTable.get(palabra))):
-#         if lista > 0:
-#             Cont += 1
-
-#    return Cont
-
-
-# listaDeTamano = []
-    # global List
-    # global HashTable
-    # List = os.listdir("files")
-    # for x in List:
-    #     with open('files\\' + x, 'r') as myfile:
-    #         data = myfile.read()
-    #         Palabras = data.split()
-    #     listaDeTamano.append( len(Palabras) )
-    #
-    # SoloGenerarHashmap()
-    # listaPalabrasOrdenadas = GenerarCorpus()
-    #
-    # for y in HashTable.keys():
-    #     TempList = HashTable.get(y)
-    #     N = 0
-    #     for z in range(len(TempList)):
-    #         TempList[z] = TempList[z] / listaDeTamano[z]
-    #         TempList[z] = format(TempList[z], '.4f')
-    #         N = N + listaDeTamano[z]
-    #
-    #     HashTable[y] = TempList
-    # TopDiez = []
-    # Cont = 0
-    # for NoOptimo in listaPalabrasOrdenadas:
-    #     TopDiez.append(NoOptimo)
-    #
-    # SortList(TopDiez)
-    # print (TopDiez)
-    #
-    # ImprimirFullCorpus( TopDiez )
-
+#Crea un Hashmaps con resultados de TfIdf por palabra y documentos
+#Crea un Hashmap con resultado de Idf, por palabra, devuelve su idf.
 def TfIdf():
     if (len(HashTable) == 0):
         SoloGenerarHashmap()
@@ -322,6 +281,7 @@ def TfIdf():
     topDiez = []
     Cont = 0
     List = listaDeDocumentos()
+    generarDocTf(HashTable)
     for x in listaDeDocumentos():
         with open('files\\' + x, 'r') as myfile:
              data = myfile.read()
@@ -341,7 +301,6 @@ def TfIdf():
         if (Cont >= 10000):
             break
         Cont += 1
-
     ImprimirFullCorpus(topDiez)
 
 
@@ -391,16 +350,17 @@ def tfIdf(palabra, documento):
 def generarDocTf(hashTf):
     docTf = open("Analisis de TF.txt",'w')
     listaTemp = os.listdir("files")
-    docTf.write("Palabras" + "\t")
+    docTf.write("{0:20}".format("Palabras") + "\t\t\t")
     for x in listaTemp:#imprimo nombres de documentos
-        docTf.write(x + "\t")
+        docTf.write(x + "\t\t")
 
+    docTf.write("\n")
     for x in hashTf.keys():
-        docTf.write(str(x)+":" )# escribo palabra
+        docTf.write("{0:20}".format(str(x)+":") )# escribo palabra
         for y in hashTf[x]:
-            docTf.write("\t")
+            docTf.write("\t\t\t")
             #docTf.seek(1,2) #retrocedo una caracter
-            docTf.write(str(hashTf.get(x)[y]))#escribo frecuencias por documento
+            docTf.write(str(y))#escribo frecuencias por documento
         docTf.write("\n")
 
     docTf.close()
