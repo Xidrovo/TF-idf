@@ -152,6 +152,18 @@ def GenerarCorpus():
 
     return ListaRetorno
 
+def GeneracionDeCorpus(hashmap):
+    listaRetorno = []
+    for x in HashTable.keys():
+        Cont = 0
+        for y in HashTable.get(x):
+            Cont = Cont + float(y)
+        listaRetorno.append([x, Cont])
+
+    listaRetorno = SortList(listaRetorno)
+    listaRetorno = listaRetorno[::-1]
+
+    return  listaRetorno
 #Imprime una lista de palabras junto a la suma total de su frecuencia
 def ImprimirCorpus(Corpus):
     for x in Corpus:
@@ -167,7 +179,7 @@ def ImprimirFullCorpus(Corpus):
         primerTexto = "Palabras: \t\t\t\t\t\t\t\t"
         temp2 = ""
         for y in List:
-            temp2 = temp2 + "{0:15}".format(str(y))
+            temp2 = temp2 + "{0:20}".format(str(y))
         primerTexto = primerTexto + temp2
         for x in listaTemp:
             strTemp = strTemp + "\t\t\t\t" + str(x)
@@ -297,28 +309,36 @@ def default(): #  default
     # ImprimirFullCorpus( TopDiez )
 
 def TfIdf():
-    SoloGenerarHashmap()
+    if (len(HashTable) == 0):
+        SoloGenerarHashmap()
+
     listaTemporal = []
+    global HashTfIdf
+    global HashIdf
+    global  List
+    Calculado = False
+    HashIdf = {}
+    HashTfIdf  = {}
     topDiez = []
     Cont = 0
-    global  List
     List = listaDeDocumentos()
     for x in listaDeDocumentos():
-        continuar = True
         with open('files\\' + x, 'r') as myfile:
              data = myfile.read()
              Palabras = data.split()
         for key in HashTable.keys():
+            HashIdf[key] = calcularIDF(key)
             listaTemporal = HashTable.get(key.lower())
             listaTemporal[Cont] = tfIdf(key, Cont)
-            HashTable[key] = listaTemporal
+            HashTfIdf[key] = listaTemporal
         Cont += 1
     listaDePalabrasOrdenadas = GenerarCorpus()
+    print (HashIdf)
 
     Cont = 0
     for ignore in listaDePalabrasOrdenadas:
         topDiez.append(ignore)
-        if (Cont >= 10):
+        if (Cont >= 10000):
             break
         Cont += 1
 
@@ -334,10 +354,10 @@ def calcularIDF(palabra):
     if palabra in HashTable: # calculo el numero de documentos que contienen la palabra y lo guardo en docsWithPalabra
         listaTemp = HashTable.get(palabra)
         for x in range(len(listaTemp)):
-            if listaTemp[x]!= 0 :
+            if float(listaTemp[x])!= 0 :
                 docsWithPalabra += 1
         if (docsWithPalabra != 0):
-            return math.log(len( listaDeDocumentos() )/docsWithPalabra,10)
+            return math.log(len( listaTemp )/docsWithPalabra,10)
         else:
             return 0
     else:
