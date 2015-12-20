@@ -5,6 +5,7 @@ import os
 import snowballstemmer
 from matplotlib.pyplot import *
 from pylab import *
+import datetime
 
 #descarguen matplotlib!!!!!!
 #descarguen numpy
@@ -219,6 +220,9 @@ def removeAll(lista1,lista2):
                 break
 
         i += 1
+def Graficos():
+    y=0
+
 
 
 #Retorna una nueva lista el cual ignora los números.
