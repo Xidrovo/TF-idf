@@ -3,9 +3,11 @@ __author__ = 'CltControl'
 import shutil
 import os
 import snowballstemmer
-from matplotlib.pyplot import *
-from pylab import *
+import matplotlib.pyplot as plt
+from matplotlib.dates import date2num
 import datetime
+import plotly.plotly as py
+
 
 #descarguen matplotlib!!!!!!
 #descarguen numpy
