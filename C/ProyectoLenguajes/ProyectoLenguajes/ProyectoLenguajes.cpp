@@ -28,17 +28,21 @@ static struct Lista *listaPalabras = NULL; //se declara como estatico para que l
 int main(int argc, char** argv) {
 
 	int op;
-	char *dirOrigen = malloc(200);
-	char * cadena = malloc(200);
-	char * cadena2 = malloc(200);
-	char * palabra = malloc(200);
+	char *dirOrigen = (char *)malloc(200);
+	char * cadena = (char *)malloc(200);
+	char * cadena2 = (char *)malloc(200);
+	char * palabra = (char *)malloc(200);
 
 	FILE *f1 = fopen("Doc2.txt", "r");
 	//cadena = archivoaChar(f1);
 	op = 0;
+	ingresarArchivo(f1, 0);
+	mostrarPalabras();
+
 	while (op != 5){
 		printf("Seleccione una opcion: \n 1.-Ingrese archivos \n 2.-Eliminar palabras \n 3.-Ingresar Palabras de Busqueda \n 4.-Mostrar Estadisticas \n 5.-Salir \n");
 		scanf("%i", &op);
+
 
 		switch (op){
 		case 1:
@@ -60,9 +64,6 @@ int main(int argc, char** argv) {
 			break;
 		case 4:
 			break;
-		case 5:
-			ingresarArchivo(f1, 0);
-			mostrarPalabras();
 		}
 	}
 
@@ -77,7 +78,7 @@ void ingresarArchivo(FILE *archivo, int indice){
 	char * pch;
 	fseek(archivo, 0, SEEK_END);
 	int tamanoArchivo = ftell(archivo); //nos devuelve el tamaño del texto
-	char *str = malloc(tamanoArchivo);
+	char *str = (char *)malloc(tamanoArchivo);
 	fseek(archivo, 0, SEEK_SET);
 
 	for (i = 0; i < tamanoArchivo; i++)
@@ -97,7 +98,7 @@ void ingresarArchivo(FILE *archivo, int indice){
 //añade una nueva palabra con arreglo de frecuencias inicializado en cero
 //y si encuentra una existente igual, le suma uno a la frecuencia
 void addPalabra(char *name, int ind) {
-	struct Lista *s;
+	struct Lista *s, *h;
 	int arr[maxArchivos] = { 0 };
 	HASH_FIND_STR(listaPalabras, name, s);
 
@@ -105,14 +106,17 @@ void addPalabra(char *name, int ind) {
 		s = (struct Lista*)malloc(sizeof(struct Lista));
 		s->nombrePalabra = name;
 		arr[ind] = 1;
-		s->frecuencias = *arr;
+	    memcpy(s->frecuencias, arr, maxArchivos * sizeof(int));//copia lo que se encuentra en arr dentro de s->frecuencias
 		strcpy(s->nombrePalabra, name);
 		HASH_ADD_STR(listaPalabras, nombrePalabra, s);
 	}
 	else {		
-		arr = s->frecuencias;
+		memcpy(arr, s->frecuencias, maxArchivos * sizeof(int));//copia lo que se encuentra en s->frecuencias dentro de arr
 		arr[ind] = arr[ind] + 1;//añade uno a la frecuencia de la palabra
-		HASH_REPLACE(hh, listaPalabras, nombrePalabra, strlen(name), *arr, (int *)s->frecuencias);//remplaza el valor dentro del mapa
+		h = (Lista*)malloc(sizeof(Lista));
+		h->nombrePalabra = name;
+		memcpy(h->frecuencias, arr, maxArchivos * sizeof(int));
+		HASH_REPLACE_STR(listaPalabras, nombrePalabra, h, s);//remplaza el valor dentro del mapa
 	}
 }
 
@@ -126,7 +130,7 @@ Lista *buscarPalabra(char *name) {
 void mostrarPalabras(){
 	struct Lista *s;
 	int i;
-	for (s = listaPalabras; s != NULL; s = s->hh.next) {
+	for (s = listaPalabras; s != NULL; s = (Lista*)(s->hh.next)) {
 		printf("\n%s-> ", s->nombrePalabra);
 		for (i = 0; i<maxArchivos; i++){
 			printf("%i, ", s->frecuencias[i]);
