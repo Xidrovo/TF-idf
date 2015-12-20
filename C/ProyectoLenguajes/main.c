@@ -66,7 +66,6 @@ int main(int argc, char** argv) {
 //Convierte un archivo a un arreglo de chars, lo tokeniza e ingresa sus palabras a un hashmap
 void ingresarArchivo(FILE *archivo, int indice){ 
     int i;
-    int doc[maxArchivos];
     char * pch;
     fseek(archivo, 0, SEEK_END); 
     int tamanoArchivo = ftell(archivo); //nos devuelve el tamaño del texto
@@ -77,7 +76,6 @@ void ingresarArchivo(FILE *archivo, int indice){
     {
           fscanf(archivo, "%c", &str[i]);
     }
-    //printf("%s", str);
     for ( ; *str; ++str) *str = tolower(*str);//pasa todo el texto a minusculas  
     pch = strtok (str," ,.-\n");//Tokeniza el arreglo de chars generado arriba
     
