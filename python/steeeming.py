@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.dates import date2num
 import datetime
 import plotly.plotly as py
-
+import math
 
 #descarguen matplotlib!!!!!!
 #descarguen numpy
@@ -19,7 +19,7 @@ op = 1 # variable para switch
 HashTable = {} #Hashmap de frecuencias
 MAXDOC = 0
 stemmer = snowballstemmer.stemmer('spanish') #selecciona el idioma para steeming
-
+Palabras=[]
 activarStem="0"
 buscar=""
 #-------------------
@@ -77,7 +77,7 @@ def GenerarFrecuencias(Documento, indice):
     StopWords = LeerStopWords()
     global Palabras
     with open('files\\' + Documento, 'r') as myfile:
-        global Palabras
+        Palabras.clear()
         data = myfile.read()
         Palabras = data.split()
         toLower(Palabras)#convierto los strings en palabras a minusculas
@@ -290,11 +290,41 @@ def TfIdf():
         Cont += 1
         if (Cont >= 10):
             break
-    # for idf in TopDiez:
-    #     for res in idf:
-    #         #math.log(N/palabraInDocs(y),10) #AQUIIIIIIIIIIII
+
 
     ImprimirFullCorpus( TopDiez )
+
+#recibe un "String" que representa una palabra
+#devuleve el IDF de esa palabra en el corppus
+def calcularIDF(palabra):
+    docsWithPalabra=0
+    listaTemp = []
+    if palabra in HashTable: # calculo el numero de documentos que contienen la palabra y lo guardo en docsWithPalabra
+        listaTemp = HashTable.get(palabra)
+        for x in range(len(listaTemp)):
+            if listaTemp[x]!= 0 :
+                docsWithPalabra += 1
+        return math.log(len(listaTemp/docsWithPalabra),10)
+    else:
+        return 0
+
+#EL TF alcula el numero de veces que aparece una palabra en un documento
+#recibe una palabra (String) y un int que representa el indice del documento en el hashmap
+def calcularTf(palabra, documento):
+    if palabra in HashTable:
+        listaTemp = HashTable.get(palabra)
+        return listaTemp[documento]
+
+    else:
+        return 0
+#calcula el tfIdf
+#recibe un string que representa una palabra y un entero que representa el documento en el que se va a calcular el tdfIdf
+#devuelve el Tdf-Idf
+def tfIdf(palabra, documento):
+    return calcularTf(palabra,documento) * calcularIDF(palabra)
+
+
+
 #Ordena una lista de manera ascendente.
 def SortList(lista):
     NuevaLista = []
