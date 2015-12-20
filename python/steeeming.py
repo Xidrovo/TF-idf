@@ -344,11 +344,11 @@ def calcularTf(palabra, documento):
 def tfIdf(palabra, documento):
     return (format(float(calcularTf(palabra,documento)) * float(calcularIDF(palabra)), '0.6f'))
 
-#Genera un archivo con el Tf de cada palabra por documento
-#recibe un hashtable que contiene el Tf por documento de cada palabra
+#Genera un archivo con el Tf o el TfIdf de cada palabra por documento
+#recibe un hashtable que contiene el Tf o TfIdf por documento de cada palabra y el nombre del documento
 #no retorna nada
-def generarDocTf(hashTf):
-    docTf = open("Analisis de TF.txt",'w')
+def generarDocTf(hashTf, nombreArchivo):
+    docTf = open(str(nombreArchivo) + ".txt",'w')
     listaTemp = os.listdir("files")
     docTf.write("{0:20}".format("Palabras") + "\t\t\t")
     for x in listaTemp:#imprimo nombres de documentos
