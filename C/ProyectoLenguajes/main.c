@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include "uthash.h"
+#define maxArchivos 100
 
 typedef struct Lista {
     char *nombrePalabra;
@@ -15,7 +16,9 @@ typedef struct Lista {
 }Lista;
 
 
-void ingresarArchivo(FILE *archivo, Lista lista, int indice);
+void ingresarArchivo(FILE *archivo, int indice);
+void addPalabra(char *name, int indice);
+Lista *buscarPalabra(char *name);
 
 int main(int argc, char** argv) {
 
@@ -24,7 +27,7 @@ int main(int argc, char** argv) {
     char * cadena = malloc(200);
     char * cadena2 = malloc(200);
     char * palabra = malloc(200);
-    struct Lista *listaPalabras = NULL; 
+    static struct Lista *listaPalabras = NULL; //se declara como estatico para que las funciones puedan modificarlo libremente
     FILE *f1 = fopen("Doc2.txt", "r");
     //cadena = archivoaChar(f1);
     op = 0;
@@ -61,11 +64,10 @@ int main(int argc, char** argv) {
 }
 
 //Convierte un archivo a un arreglo de chars, lo tokeniza e ingresa sus palabras a un hashmap
-void ingresarArchivo(FILE *archivo,Lista lista, int indice){ 
+void ingresarArchivo(FILE *archivo, int indice){ 
     int i;
-    int doc[100];
+    int doc[maxArchivos];
     char * pch;
-    int aux[1000] = {0};
     fseek(archivo, 0, SEEK_END); 
     int tamanoArchivo = ftell(archivo); //nos devuelve el tamaño del texto
     char *str= malloc(tamanoArchivo);
@@ -76,49 +78,44 @@ void ingresarArchivo(FILE *archivo,Lista lista, int indice){
           fscanf(archivo, "%c", &str[i]);
     }
     //printf("%s", str);
+    for ( ; *str; ++str) *str = tolower(*str);//pasa todo el texto a minusculas  
     pch = strtok (str," ,.-\n");//Tokeniza el arreglo de chars generado arriba
     
-    while (pch != NULL)
+    while (pch != NULL)//Mientras siga encontrando palabras tokenizadas
     {
-        while(lista[i]){
-            if(pch == lista.palabras->nombrePalabra){
-            
-            }
-        }
-        lista.palabras->nombrePalabra = pch;
-       
-                //printf ("%s\n",pch);
-        if(hashMapGet(map, pch)==NULL){     //Si esa palabra no está en el hashmap
-            doc[i]=1;                         //Indica que aparece 1 vez en el documento i
-            hashMapAdd(map, pch, doc);        //Anade la palabra y su array 
-        }
-        else{                                   //Si se encuentra en el hashmap, toma el value que es un array de enteros, le sma
-                                                   // 1 en la posicion del documento, lo elimina del hashmap y lo vuelve a anadir
-
-
-            int aux[] = {0};
-            *aux =*(int *) hashMapGet(map, pch);         //hacer el cast de Generic a int[]
-            aux[i]++;
-            //hashMapSet(map,pch,aux);
-            hashMapDel(map,pch);
-            hashMapAdd(map,pch,aux);
-        }
-        
-      pch = strtok (NULL, " ,.-\n\"");
-        
+        addPalabra(pch,indice);  
+        pch = strtok (NULL, " ,.-\n\"");
+    }  
    }
-}
-  
-void hashMapAdd(char *name, int *frecuencias) {
+
+//añade una nueva palabra con arreglo de frecuencias inicializado en cero
+//y si encuentra una existente igual, le suma uno a la frecuencia
+void addPalabra(char *name,int ind) {
     struct Lista *s;
-    s = malloc(sizeof(struct Lista));
-    s->nombrePalabra= name;
-    strcpy(s->nombrePalabra, name);
-    HASH_ADD( listaPalabras, nombrePalabra, s );  /* id: name of key field */
+    int arr[maxArchivos]={0};
+    HASH_FIND_STR(listaPalabras, *name, s );
+    
+    if(s==NULL){//Si no encuentra la palabra la añade
+        s = (struct Lista*)malloc(sizeof(struct Lista));
+        s->nombrePalabra= name;
+        arr[ind]=1;
+        s->frecuencias= *arr ;
+        strcpy(s->nombrePalabra, name);
+        HASH_ADD_STR(listaPalabras,nombrePalabra, s); 
+    }
+    else {
+        arr=s->frecuencias;
+        arr[ind]= arr[ind] + 1;//añade uno a la frecuencia de la palabra
+        HASH_REPLACE(hh, listaPalabras, nombrePalabra, strlen(name), *arr, s->*frecuencias);//remplaza el valor dentro del mapa
+    }
 }
 
-struct Lista *buscarPalabra(char *name) {
+//busca una palabra dentro del mapa
+Lista *buscarPalabra(char *name) {
     struct Lista *s;
-    HASH_FIND(listaPalabras, *name, s );  /* s: output pointer */
+    HASH_FIND_STR(listaPalabras, *name, s );  /* s: output pointer */
     return s;
 }
+
+
+
