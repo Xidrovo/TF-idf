@@ -383,20 +383,24 @@ def generarDocTf(hashTf):
             docTf.write(str(hashTf.get(x)[y]))#escribo frecuencias por documento
         docTf.write("\n")
 
+    docTf.close()
+
 #Genera un archivo con el Idf de cada palabra por documento
 #recibe un hashtable que contiene el Idf por documento de cada palabra
 #no retorna nada
 def generarDocIdf(hashIdf):
-    docTf = open("Analisis de Idf.txt",'w')
+    docIdf = open("Analisis de Idf.txt",'w')
     listaTemp = os.listdir("files")
-    docTf.write("Palabras" + "\t")
+    docIdf.write("Palabras" + "\t")
     for x in listaTemp:#imprimo nombres de documentos
-        docTf.write(x + "\t")
+        docIdf.write(x + "\t")
 
     for x in hashIdf.keys():
-        docTf.write(str(x)+":")# escribo palabra
-        docTf.write(str(hashIdf.get(x)))#escribo frecuencias por documento
-        docTf.write("\n")
+        docIdf.write(str(x)+":")# escribo palabra
+        docIdf.write(str(hashIdf.get(x)))#escribo frecuencias por documento
+        docIdf.write("\n")
+        
+    docIdf.close()
 
 #Ordena una lista de manera ascendente.
 def SortList(lista):
