@@ -70,7 +70,9 @@ def tres():
         for x in HashTable.get((buscar)):
             Var = Var + " " + str(x)
 
-        print("{0:20} ==> {1:10}".format(buscar, Var))
+        print("Tf por Documento: {0:20} ==> {1:10}".format(buscar, Var))
+        print("                 {0:20} ==> {1:10}".format("Idf:", calcularIDF(buscar)))
+
     except Exception:
         print ( "La palabra no esta en el documento!" )
 
@@ -270,7 +272,7 @@ def graficoTf(topDiezTf):
     fig, ax = plt.subplots() #grupo de barras
     for x in topDiezTf:
         #print(topDiezTf[x][1])
-        rects1 = ax.bar(ind + (width * cont), x[1], width, color= 'r') #por cada vuelta genero la barra del Tf de una palabra en un documento
+        rects1 = ax.bar(ind + (width * cont), x[1], width, color= 'r') #por cada vuelta genero un set de barras del Tf de una palabra en los documentos
         for y in ind:
             ax.text(rects1[0].get_x() + y,rects1[0].get_height()/2.,x[0],rotation='vertical')# imprimo texto en los rectangulos.   formato de funcion text(posX,posY,String,Rotacion)
 
@@ -292,8 +294,65 @@ def graficoTf(topDiezTf):
          for x in rectangulos:
             autolabel(x)
 
+
     plt.show()
 
+
+#recibe una matriz Palabras vs Idf --> (String, int) y crea un grafico a partir de ella
+def graficoIdf(topDiezIdf):
+    n = 10 #numero de bloques de barras en este caso palabras
+    ind = np.arange(n) #espacio entre bloque de barras
+    width = 0.35 #ancho de cada barra
+    rectangulos = []
+    leyendasX = []
+    idfs = [] #aqui guardare las alturas de las barras
+    fig, ax = plt.subplots() #ax es el grupo de barras
+    for x in topDiezIdf:
+        idfs.append(x[1])
+        leyendasX.append(x[0])
+    rects1 = ax.bar(ind , idfs, width, color= 'b') #por cada vuelta genero la barra del Tf de una palabra en un documento
+    rectangulos.append(rects1)
+    ax.set_ylabel('Idf')
+    ax.set_title('Palabras')
+    ax.set_xticks(ind + (width / 2) )
+    ax.set_xticklabels(leyendasX) #leyendas en x ----> palabras
+
+    plt.show()
+
+def graficoTfIdf(topDiezTfIdf):
+    n = len(os.listdir("files")) #numero de bloques de barras en este caso documentos
+    ind = np.arange(n) #espacio entre bloque de barras
+    width = 0.07 #ancho de cada barra
+    rectangulos = []
+    leyendasX = []
+    cont = 0
+    fig, ax = plt.subplots() #grupo de barras
+    for x in topDiezTfIdf:
+        #print(topDiezTf[x][1])
+        rects1 = ax.bar(ind + (width * cont), x[1], width, color= 'r') #por cada vuelta genero un set de barras del Tf de una palabra en los documentos
+        for y in ind:
+            ax.text(rects1[0].get_x() + y,rects1[0].get_height()/2.,x[0],rotation='vertical')# imprimo texto en los rectangulos.   formato de funcion text(posX,posY,String,Rotacion)
+
+        rectangulos.append(rects1)
+        cont += 1
+    for x in os.listdir("files"):
+        leyendasX.append(x)
+
+    ax.set_ylabel('TF - Idf')
+    ax.set_title('Documentos')
+    ax.set_xticks(ind + (5 * width))
+    ax.set_xticklabels(leyendasX) #leyendas en x ----> palabras
+    def autolabel(rects):  #genera los labels de os rectangulos
+         # attach some text labels
+         for rect in rects:
+            height = rect.get_height()
+            ax.text(rect.get_x() + rect.get_width()/2., 1.05*height,'%d' % int(height),ha='center', va='bottom')
+
+         for x in rectangulos:
+            autolabel(x)
+
+
+    plt.show()
 
 #Retorna una nueva lista el cual ignora los números.
 def BorrarNumeros(lista):
@@ -405,6 +464,8 @@ def TfIdf():
     generarDocTfConMatriz(listaOrdenadaTfIdf, "Analisis de tf-Idf")
     generarDocIdf(listaOrdenadaIdf)
     graficoTf(listaPrueba)
+    graficoIdf(listaOrdenadaIdf)
+    graficoTfIdf(listaOrdenadaTfIdf)
 
 
 #recibe un "String" que representa una palabra
