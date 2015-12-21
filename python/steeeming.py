@@ -3,10 +3,14 @@ __author__ = 'CltControl'
 import shutil
 import os
 import snowballstemmer
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
+import numpy as np
 #from matplotlib.dates import date2num
 #import datetime
 #import plotly.plotly as py
+#import plotly.plotly as py
+#import plotly.graph_objs as go
+#py.sign_in('riascos', 'cxzmphb1r2') # ni idea :T
 import math
 
 #descarguen matplotlib!!!!!!
@@ -238,8 +242,10 @@ def removeAll(lista1,lista2):
 
         i += 1
 
-def Graficos():
-    y=0
+def graficos():
+    fig = plt.figure()
+    ax=plt.subplot(111)
+    ax.bar([1,2,3],[5,10,15],width=100)
 
 
 
@@ -317,6 +323,7 @@ def TfIdf():
             break
         Cont += 1
     ImprimirFullCorpus(topDiez)
+    graficos()
 
 
 #recibe un "String" que representa una palabra
