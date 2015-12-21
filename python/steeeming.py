@@ -405,6 +405,7 @@ def generarDocIdf(hashIdf):
     docIdf.close()
 
 #Ordena una lista de manera ascendente.
+
 def SortList(lista):
     NuevaLista = []
     Index = 0
