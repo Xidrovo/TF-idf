@@ -279,7 +279,23 @@ def TfIdf():
     topDiez = []
     Cont = 0
     List = listaDeDocumentos()
-    generarDocTf(HashTable,"Analisis de Tf")
+
+    #Hago una lista ordenada de acuerdo a la suma de las frecuencias
+    listaDePalabrasOrdenadas = GenerarCorpus()
+    #Las 10 palabras que estén al inicio (el top diez) será almacenado en una función
+    for ignore in listaDePalabrasOrdenadas:
+        topDiez.append(ignore)
+        if (Cont >= 10):
+            break
+        Cont += 1
+    hashTf = {}
+    #Guardo en un hashmap la palabra con su frecuencia separada por documentos
+    #La estructura de este hashmap es identica al de 'hashtable'
+    for nombrePalabra in topDiez:
+        hashTf[nombrePalabra[0]] = HashTable.get(nombrePalabra[0])
+    Cont = 0
+
+    generarDocTf(hashTf,"Analisis de Tf")
     for x in listaDeDocumentos():
         for key in HashTable.keys():
             HashIdf[key] = calcularIDF(key)
