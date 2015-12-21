@@ -411,7 +411,6 @@ switch = {
 
 #Opciones del menu principal
 while (op!='0'):
-    global activarStem
     activarStem="0"
     op=input("""
     Selecione una opcion:
