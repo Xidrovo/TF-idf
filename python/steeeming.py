@@ -377,19 +377,19 @@ def TfIdf():
 
     generarDocIdf(HashIdf)
     Cont = 0
-    listaPrueba = []
+    listaOrdenadaTfIdf = []
     for tfIdfOrdenado in LlavesHashOrdenada(HashTfIdf):
-        listaPrueba.append(tfIdfOrdenado[0])
+        listaOrdenadaTfIdf.append(tfIdfOrdenado[0])
         pruebaDos = []
         pruebaDos.append(tfIdfOrdenado[0])
         pruebaDos.append(HashTfIdf.get(tfIdfOrdenado[0]))
-        listaPrueba[Cont] = pruebaDos
+        listaOrdenadaTfIdf[Cont] = pruebaDos
         Cont += 1
         if (Cont >= 10):
             break
 
-    print (listaPrueba)
-    generarDocTf(HashTfIdf, "Analisis de tf-Idf")
+    generarDocTfConMatriz(listaOrdenadaTfIdf, "Analisis de tf-Idf")
+    #generarDocTf(HashTfIdf, "Analisis de tf-Idf")
     graficoTf(listaPrueba)
 
 
