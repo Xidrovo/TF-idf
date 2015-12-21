@@ -242,22 +242,20 @@ def removeAll(lista1,lista2):
 
         i += 1
 
-def graficos():
-    hashTf = HashTable
+def graficos(topDiezTf):
+    hashTf = HashTable.copy()
     #fig = plt.figure()
     #ax=plt.subplot(111)
     valoresTf = []
-    n = 3 #numero de bloques de barras
+    n = len(topDiezTf) #numero de bloques de barras
     ind = np.arange(n) #espacio entre barras
-    width = 0.35 #ancho de cada barra
+    width = 0.40 #ancho de cada barra
     rectangulos=[]
     cont = 0
     fig, ax = plt.subplots() #grupo de barras
     #for cont in range(len(hashTf.keys())):
     for x in hashTf.keys():
-         #   valoresTf.append(hashTf.get(x))
-        rects1 = ax.bar(ind + float(width * cont), hashTf.get(x), width, color='r')
-        cont += 1
+        rects1 = ax.bar(ind + (width * cont), topDiezTf[x][2], width, color='r')
         rectangulos.append(rects1)
     ax.set_ylabel('TF')
     ax.set_title('Tf por Documento')
@@ -268,6 +266,8 @@ def graficos():
 
     #plt.bar([1,2,3],[5,10,15],width=0.8)
     plt.show()
+
+
 
 
 #Retorna una nueva lista el cual ignora los números.
