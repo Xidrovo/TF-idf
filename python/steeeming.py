@@ -245,9 +245,9 @@ def graficos(topDiezTf):
     #fig = plt.figure()
     #ax=plt.subplot(111)
     valoresTf = []
-    n = len(topDiezTf) #numero de bloques de barras
+    n = len(os.listdir("files")) #numero de bloques de barras
     ind = np.arange(n) #espacio entre barras
-    width = 0.40 #ancho de cada barra
+    width = 0.01 #ancho de cada barra
     rectangulos=[]
     cont = 0
     fig, ax = plt.subplots() #grupo de barras
@@ -256,6 +256,7 @@ def graficos(topDiezTf):
         #print(topDiezTf[x][1])
         rects1 = ax.bar(ind + (width * cont), x[1], width, color='r')
         rectangulos.append(rects1)
+        cont += 1
     ax.set_ylabel('TF')
     ax.set_title('Tf por Documento')
     ax.set_xticks(ind + width)
@@ -425,7 +426,6 @@ def generarDocTfConMatriz(hashTf, nombreArchivo):
     docTf.write("{0:20}".format("Palabras" + "\t\t\t"))
     for x in listaTemp:#imprimo nombres de documentos
         docTf.write(x + "\t\t")
-
     docTf.write("\n")
 
     for x in hashTf:
