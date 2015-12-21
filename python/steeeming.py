@@ -157,6 +157,9 @@ def GenerarCorpus():
 
     return ListaRetorno
 
+#Retorna una lista ordenada dada la siguiente estructura:
+    #Hashmap[Key] -> [ListaDeValores]
+#Suma la lista de valores para una misma palabra, y retonra una lista solo con las palabras.
 def LlavesHashOrdenada(hashtfidf):
     ListaRetorno = []
     for x in hashtfidf.keys():
@@ -389,7 +392,6 @@ def TfIdf():
             break
 
     generarDocTfConMatriz(listaOrdenadaTfIdf, "Analisis de tf-Idf")
-    #generarDocTf(HashTfIdf, "Analisis de tf-Idf")
     graficoTf(listaPrueba)
 
 
@@ -436,24 +438,6 @@ def tfIdf(palabra, documento):
 #Genera un archivo con el Tf o el TfIdf de cada palabra por documento
 #recibe un hashtable que contiene el Tf o TfIdf por documento de cada palabra y el nombre del documento
 #no retorna nada
-def generarDocTf(hashTf, nombreArchivo):
-    docTf = open("Analisis de Contenido\\" + str(nombreArchivo) + ".txt",'w')
-    listaTemp = os.listdir("files")
-    docTf.write("{0:20}".format("Palabras") + "\t\t\t")
-    for x in listaTemp:#imprimo nombres de documentos
-        docTf.write(x + "\t\t\t")
-
-    docTf.write("\n")
-    for x in hashTf.keys():
-        docTf.write("{0:20}".format(str(x)+":") )# escribo palabra
-        for y in hashTf[x]:
-            docTf.write("\t\t\t")
-            #docTf.seek(1,2) #retrocedo una caracter
-            docTf.write(str(y))#escribo frecuencias por documento
-        docTf.write("\n")
-
-    docTf.close()
-
 def generarDocTfConMatriz(hashTf, nombreArchivo):
     docTf = open("Analisis de Contenido\\" + str(nombreArchivo) + ".txt",'w')
     listaTemp = os.listdir("files")
