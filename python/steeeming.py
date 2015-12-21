@@ -261,40 +261,28 @@ def removeAll(lista1,lista2):
         i += 1
 
 def graficoTf(topDiezTf):
-    #fig = plt.figure()
-    #ax=plt.subplot(111)
-    valoresTf = []
-    n = len(os.listdir("files")) #numero de bloques de barras
-    ind = np.arange(n) #espacio entre barras
+    n = len(os.listdir("files")) #numero de bloques de barras en este caso documentos
+    ind = np.arange(n) #espacio entre bloque de barras
     width = 0.07 #ancho de cada barra
-    rectangulos=[]
+    rectangulos = []
+    leyendasX = []
     cont = 0
     fig, ax = plt.subplots() #grupo de barras
-    #for cont in range(len(hashTf.keys())):
     for x in topDiezTf:
         #print(topDiezTf[x][1])
-        rects1 = ax.bar(ind + (width * cont), x[1], width, color= 'r')
+        rects1 = ax.bar(ind + (width * cont), x[1], width, color= 'r') #por cada vuelta genero la barra del Tf de una palabra en un documento
+        for y in ind:
+            ax.text(rects1[0].get_x() + y,rects1[0].get_height()/2.,x[0],rotation='vertical')# imprimo texto en los rectangulos.   formato de funcion text(posX,posY,String,Rotacion)
+
         rectangulos.append(rects1)
         cont += 1
+    for x in os.listdir("files"):
+        leyendasX.append(x)
+
     ax.set_ylabel('TF')
-    ax.set_title('Tf por Documento')
-    ax.set_xticks(ind + width)
-    ax.set_xticklabels(('G1', 'G2', 'G3', 'G4', 'G5'))#palabras
-
-    def autolabel(rects):  #genera los labels de os rectangulos
-        # attach some text labels
-        for rect in rects:
-            height = rect.get_height()
-            ax.text(rect.get_x() + rect.get_width()/2., 1.05*height,
-                    '%d' % int(height),
-                    ha='center', va='bottom')
-
-    for x in rectangulos:
-        autolabel(x)
-
-    #plt.bar([1,2,3],[5,10,15],width=0.8)
-    plt.show()
-
+    ax.set_title('Documentos')
+    ax.set_xticks(ind + (5 * width))
+    ax.set_xticklabels(leyendasX) #leyendas en x ----> palabras
 
 
 
