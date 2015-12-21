@@ -332,7 +332,7 @@ def TfIdf():
         listaPrueba[Cont] = pruebaDos
         Cont += 1
 
-   # generarDocTfConMatriz(listaPrueba, "ya")
+    generarDocTfConMatriz(listaPrueba, "ya")
     generarDocTf(hashTf,"Analisis de Tf")
     Cont = 0
     listatemporito = []
@@ -420,19 +420,19 @@ def generarDocTf(hashTf, nombreArchivo):
     docTf.close()
 
 def generarDocTfConMatriz(hashTf, nombreArchivo):
-    docTf = open("Analisis de Contenido\\" + str(nombreArchivo),'w')
+    docTf = open("Analisis de Contenido\\" + str(nombreArchivo) + ".txt",'w')
     listaTemp = os.listdir("files")
-    docTf.write("{0:20}".format("Palabras") + "\t\t\t")
+    docTf.write("{0:20}".format("Palabras" + "\t\t\t"))
     for x in listaTemp:#imprimo nombres de documentos
-        docTf.write(x + "\t\t\t")
+        docTf.write(x + "\t\t")
 
     docTf.write("\n")
 
     for x in hashTf:
         testo = ""
-        for y in x:
-            testo = testo + y + "\t\t\t"
-        docTf.write("{0:20}: {1:15}".format(x, testo))
+        for y in x[1]:
+            testo =  testo + "\t\t\t" + str(y)
+        docTf.write("{0:20}: {1:15}".format(x[0], testo))
         docTf.write("\n")
 
     docTf.close()
