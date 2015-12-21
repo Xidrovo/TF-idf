@@ -243,10 +243,31 @@ def removeAll(lista1,lista2):
         i += 1
 
 def graficos():
-    fig = plt.figure()
-    ax=plt.subplot(111)
-    ax.bar([1,2,3],[5,10,15],width=100)
+    hashTf = HashTable
+    #fig = plt.figure()
+    #ax=plt.subplot(111)
+    valoresTf = []
+    n = 3 #numero de bloques de barras
+    ind = np.arange(n) #espacio entre barras
+    width = 0.35 #ancho de cada barra
+    rectangulos=[]
+    cont = 0
+    fig, ax = plt.subplots() #grupo de barras
+    #for cont in range(len(hashTf.keys())):
+    for x in hashTf.keys():
+         #   valoresTf.append(hashTf.get(x))
+        rects1 = ax.bar(ind + float(width * cont), hashTf.get(x), width, color='r')
+        cont += 1
+        rectangulos.append(rects1)
+    ax.set_ylabel('TF')
+    ax.set_title('Tf por Documento')
+    ax.set_xticks(ind + width)
+    ax.set_xticklabels(('G1', 'G2', 'G3', 'G4', 'G5'))#palabras
 
+
+
+    #plt.bar([1,2,3],[5,10,15],width=0.8)
+    plt.show()
 
 
 #Retorna una nueva lista el cual ignora los números.
@@ -323,7 +344,7 @@ def TfIdf():
             break
         Cont += 1
     ImprimirFullCorpus(topDiez)
-    graficos()
+    graficos(HashTable)
 
 
 #recibe un "String" que representa una palabra
@@ -434,7 +455,7 @@ switch = {
         '2': dos,
         '3': tres,
         '4': GenerarHashmap,
-        '5': TfIdf
+        '5': graficos#TfIdf
         }
 
 #Opciones del menu principal
@@ -513,3 +534,43 @@ while (op!='0'):
 #     sorted_words = sorted(scores.items(), key=lambda x: x[1], reverse=True)
 #     for word, score in sorted_words[:3]:
 #         print("Word: {}, TF-IDF: {}".format(word, round(score, 5)))
+
+#
+# import numpy as np   http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.bar
+# import matplotlib.pyplot as plt
+#
+# N = 5
+# menMeans = (20, 35, 30, 35, 27)
+# menStd = (2, 3, 4, 1, 2)
+#
+# ind = np.arange(N)  # the x locations for the groups
+# width = 0.35       # the width of the bars
+#
+# fig, ax = plt.subplots()
+# rects1 = ax.bar(ind, menMeans, width, color='r')
+#
+# womenMeans = (25, 32, 34, 20, 25)
+# womenStd = (3, 5, 2, 3, 3)
+# rects2 = ax.bar(ind + width, womenMeans, width, color='y', yerr=womenStd)
+#
+# # add some text for labels, title and axes ticks
+# ax.set_ylabel('Scores')
+# ax.set_title('Scores by group and gender')
+# ax.set_xticks(ind + width)
+# ax.set_xticklabels(('G1', 'G2', 'G3', 'G4', 'G5'))
+#
+# #ax.legend((rects1[0], rects2[0]), ('Men', 'Women'))
+#
+#
+# def autolabel(rects):
+#     # attach some text labels
+#     for rect in rects:
+#         height = rect.get_height()
+#         ax.text(rect.get_x() + rect.get_width()/2., 1.05*height,
+#                 '%d' % int(height),
+#                 ha='center', va='bottom')
+#
+# #autolabel(rects1)
+# #autolabel(rects2)
+#
+# plt.show()
