@@ -14,7 +14,6 @@ typedef struct Lista {
 	char *nombrePalabra;
 	int frecuencias[maxArchivos];
 	UT_hash_handle hh;
-
 }Lista;
 
 
@@ -36,8 +35,6 @@ int main(int argc, char** argv) {
 	FILE *f1 = fopen("Doc2.txt", "r");
 	//cadena = archivoaChar(f1);
 	op = 0;
-	ingresarArchivo(f1, 0);
-	mostrarPalabras();
 
 	while (op != 5){
 		printf("Seleccione una opcion: \n 1.-Ingrese archivos \n 2.-Eliminar palabras \n 3.-Ingresar Palabras de Busqueda \n 4.-Mostrar Estadisticas \n 5.-Salir \n");
@@ -76,6 +73,7 @@ int main(int argc, char** argv) {
 void ingresarArchivo(FILE *archivo, int indice){
 	int i;
 	char * pch;
+
 	fseek(archivo, 0, SEEK_END);
 	int tamanoArchivo = ftell(archivo); //nos devuelve el tamaño del texto
 	char *str = (char *)malloc(tamanoArchivo);
@@ -85,9 +83,8 @@ void ingresarArchivo(FILE *archivo, int indice){
 	{
 		fscanf(archivo, "%c", &str[i]);
 	}
-	for (; *str; ++str) *str = tolower(*str);//pasa todo el texto a minusculas  
+	//for (; *str; ++str) *str = tolower(*str);//pasa todo el texto a minusculas  
 	pch = strtok(str, " ,.-\n");//Tokeniza el arreglo de chars generado arriba
-
 	while (pch != NULL)//Mientras siga encontrando palabras tokenizadas
 	{
 		addPalabra(pch, indice);
@@ -100,6 +97,7 @@ void ingresarArchivo(FILE *archivo, int indice){
 void addPalabra(char *name, int ind) {
 	struct Lista *s, *h;
 	int arr[maxArchivos] = { 0 };
+	
 	HASH_FIND_STR(listaPalabras, name, s);
 
 	if (s == NULL){//Si no encuentra la palabra la añade
