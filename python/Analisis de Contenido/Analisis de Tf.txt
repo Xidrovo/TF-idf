@@ -1,12 +1,12 @@
-Palabras            			Doc1.txt			Doc2.txt			doc3.txt			
-curs:               			14			17			27
-son:                			34			29			12
-hay:                			25			47			25
-clas:               			31			36			41
-le:                 			12			46			8
-cos:                			48			35			13
-mas:                			40			30			25
-pregunt:            			8			63			18
-tem:                			9			51			14
-les:                			41			63			46
-estudi:             			23			46			74
+Palabras			         Doc1.txt		Doc2.txt		doc3.txt		
+les                 : 			41			63			46
+estudi              : 			23			46			74
+clas                : 			31			36			41
+hay                 : 			25			47			25
+cos                 : 			48			35			13
+mas                 : 			40			30			25
+pregunt             : 			8			63			18 
+son                 : 			34			29			12
+tem                 : 			9			51			14 
+le                  : 			12			46			8 
+curs                : 			14			17			27

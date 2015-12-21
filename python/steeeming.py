@@ -157,6 +157,19 @@ def GenerarCorpus():
 
     return ListaRetorno
 
+def LlavesHashOrdenada(hashtfidf):
+    ListaRetorno = []
+    for x in hashtfidf.keys():
+        Cont = 0
+        for y in hashtfidf.get(x):
+            Cont = Cont + float(y)
+        ListaRetorno.append([x, Cont])
+
+    ListaRetorno = SortList(ListaRetorno)
+    ListaRetorno = ListaRetorno[::-1]
+
+    return ListaRetorno
+
 def GeneracionDeCorpus(hashmap):
     listaRetorno = []
     for x in HashTable.keys():
@@ -342,8 +355,7 @@ def TfIdf():
         listaPrueba[Cont] = pruebaDos
         Cont += 1
 
-    generarDocTfConMatriz(listaPrueba, "ya")
-    generarDocTf(hashTf,"Analisis de Tf")
+    generarDocTfConMatriz(listaPrueba, "Analisis de Tf")
     Cont = 0
     listatemporito = []
     #Genero una lista dle tamaño relavito a la cantidad de documentos.
@@ -364,6 +376,19 @@ def TfIdf():
         Cont += 1
 
     generarDocIdf(HashIdf)
+    Cont = 0
+    listaPrueba = []
+    for tfIdfOrdenado in LlavesHashOrdenada(HashTfIdf):
+        listaPrueba.append(tfIdfOrdenado[0])
+        pruebaDos = []
+        pruebaDos.append(tfIdfOrdenado[0])
+        pruebaDos.append(HashTfIdf.get(tfIdfOrdenado[0]))
+        listaPrueba[Cont] = pruebaDos
+        Cont += 1
+        if (Cont >= 10):
+            break
+
+    print (listaPrueba)
     generarDocTf(HashTfIdf, "Analisis de tf-Idf")
     graficoTf(listaPrueba)
 
