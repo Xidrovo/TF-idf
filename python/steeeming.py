@@ -164,8 +164,11 @@ def LlavesHashOrdenada(hashtfidf):
     ListaRetorno = []
     for x in hashtfidf.keys():
         Cont = 0
-        for y in hashtfidf.get(x):
-            Cont = Cont + float(y)
+        try:
+            for y in hashtfidf.get(x):
+                Cont = Cont + float(y)
+        except Exception:
+                Cont = hashtfidf.get(x)
         ListaRetorno.append([x, Cont])
 
     ListaRetorno = SortList(ListaRetorno)
@@ -378,7 +381,6 @@ def TfIdf():
             HashTfIdf[key] = listatemporito
         Cont += 1
 
-    generarDocIdf(HashIdf)
     Cont = 0
     listaOrdenadaTfIdf = []
     for tfIdfOrdenado in LlavesHashOrdenada(HashTfIdf):
@@ -391,7 +393,20 @@ def TfIdf():
         if (Cont >= 10):
             break
 
+    Cont = 0
+    listaOrdenadaIdf = []
+    for tfIdfOrdenado in LlavesHashOrdenada(HashIdf):
+        listaOrdenadaIdf.append(tfIdfOrdenado[0])
+        pruebaDos = []
+        pruebaDos.append(tfIdfOrdenado[0])
+        pruebaDos.append(HashIdf.get(tfIdfOrdenado[0]))
+        listaOrdenadaIdf[Cont] = pruebaDos
+        Cont += 1
+        if (Cont >= 10):
+            break
+
     generarDocTfConMatriz(listaOrdenadaTfIdf, "Analisis de tf-Idf")
+    generarDocIdf(listaOrdenadaIdf)
     graficoTf(listaPrueba)
 
 
@@ -463,8 +478,8 @@ def generarDocIdf(hashIdf):
     listaTemp = os.listdir("files")
     docIdf.write("{0:20} {1:20}".format("Palabra", "Idf"))
     docIdf.write("\n")
-    for x in hashIdf.keys():
-        docIdf.write("{0:20}: {1:20}".format(str(x), str(hashIdf.get(x) )) )
+    for x in hashIdf:
+        docIdf.write("{0:20}: {1:20}".format(str(x[0]), str(x[1])) )
         docIdf.write("\n")
 
     docIdf.close()
