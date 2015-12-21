@@ -33,9 +33,9 @@ if not os.path.exists("custom"):
     os.makedirs("custom")
 shutil.copy("stopwords.txt", "custom\\stopwords.txt")
 
-# Creacion de carpeta para guardar los archivos a examinar
-#if not os.path.exists("files"):
-#    os.makedirs("files")
+# Creacion de carpeta para output de analisis
+if not os.path.exists("Analisis de Contenido"):
+    os.makedirs("Analisis de Contenido")
 
 #Menu principal
 
@@ -349,6 +349,7 @@ def calcularTf(palabra, documento):
         return listaTemp[documento]
     else:
         return 0
+
 #calcula el tfIdf
 #recibe un string que representa una palabra y un entero que representa el documento en el que se va a calcular el tdfIdf
 #devuelve el Tdf-Idf
@@ -359,7 +360,7 @@ def tfIdf(palabra, documento):
 #recibe un hashtable que contiene el Tf o TfIdf por documento de cada palabra y el nombre del documento
 #no retorna nada
 def generarDocTf(hashTf, nombreArchivo):
-    docTf = open(str(nombreArchivo) + ".txt",'w')
+    docTf = open("Analisis de Contenido\\" + str(nombreArchivo) + ".txt",'w')
     listaTemp = os.listdir("files")
     docTf.write("{0:20}".format("Palabras") + "\t\t\t")
     for x in listaTemp:#imprimo nombres de documentos
@@ -380,7 +381,7 @@ def generarDocTf(hashTf, nombreArchivo):
 #recibe un hashtable que contiene el Idf por documento de cada palabra
 #no retorna nada
 def generarDocIdf(hashIdf):
-    docIdf = open("Analisis de Idf.txt",'w')
+    docIdf = open("Analisis de Contenido\\Analisis de Idf.txt",'w')
     listaTemp = os.listdir("files")
     docIdf.write("Palabras" + "\t")
     for x in listaTemp:#imprimo nombres de documentos
