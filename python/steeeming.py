@@ -241,20 +241,20 @@ def removeAll(lista1,lista2):
 
         i += 1
 
-def graficos(topDiezTf):
+def graficoTf(topDiezTf):
     #fig = plt.figure()
     #ax=plt.subplot(111)
     valoresTf = []
     n = len(os.listdir("files")) #numero de bloques de barras
     ind = np.arange(n) #espacio entre barras
-    width = 0.01 #ancho de cada barra
+    width = 0.07 #ancho de cada barra
     rectangulos=[]
     cont = 0
     fig, ax = plt.subplots() #grupo de barras
     #for cont in range(len(hashTf.keys())):
     for x in topDiezTf:
         #print(topDiezTf[x][1])
-        rects1 = ax.bar(ind + (width * cont), x[1], width, color='r')
+        rects1 = ax.bar(ind + (width * cont), x[1], width, color= 'r')
         rectangulos.append(rects1)
         cont += 1
     ax.set_ylabel('TF')
@@ -262,7 +262,16 @@ def graficos(topDiezTf):
     ax.set_xticks(ind + width)
     ax.set_xticklabels(('G1', 'G2', 'G3', 'G4', 'G5'))#palabras
 
+    def autolabel(rects):  #genera los labels de os rectangulos
+        # attach some text labels
+        for rect in rects:
+            height = rect.get_height()
+            ax.text(rect.get_x() + rect.get_width()/2., 1.05*height,
+                    '%d' % int(height),
+                    ha='center', va='bottom')
 
+    for x in rectangulos:
+        autolabel(x)
 
     #plt.bar([1,2,3],[5,10,15],width=0.8)
     plt.show()
@@ -356,7 +365,7 @@ def TfIdf():
 
     generarDocIdf(HashIdf)
     generarDocTf(HashTfIdf, "Analisis de tf-Idf")
-    graficos(listaPrueba)
+    graficoTf(listaPrueba)
 
 
 #recibe un "String" que representa una palabra
