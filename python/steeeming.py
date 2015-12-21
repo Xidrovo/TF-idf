@@ -88,6 +88,8 @@ def GenerarFrecuencias(Documento, indice):
 
         global activarStem #activo o desactivo el steming
         global buscar
+
+
         if activarStem=="1":
             buscar=stemmer.stemWord(buscar)
             for x in range(len(Palabras)):
@@ -268,12 +270,14 @@ def default(): #  default
 #Crea un Hashmaps con resultados de TfIdf por palabra y documentos
 #Crea un Hashmap con resultado de Idf, por palabra, devuelve su idf.
 def TfIdf():
-    if (len(HashTable) == 0):
-        SoloGenerarHashmap()
+    global HashTable
     global HashTfIdf
     global HashIdf
     global  List
 
+    global activarStem
+    activarStem = "1"
+    SoloGenerarHashmap()
     HashIdf = {}
     HashTfIdf  = {}
     topDiez = []
@@ -304,7 +308,7 @@ def TfIdf():
             HashTfIdf[key] = listaTemporal
         Cont += 1
     listaDePalabrasOrdenadas = GenerarCorpus()
-    print (HashIdf)
+
 
     Cont = 0
     for ignore in listaDePalabrasOrdenadas:
