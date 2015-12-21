@@ -327,24 +327,32 @@ def TfIdf():
     Cont = 0
 
     generarDocTf(hashTf,"Analisis de Tf")
+    listatemporito = []
+    #Genero una lista dle tamaño relavito a la cantidad de documentos.
     for x in listaDeDocumentos():
         for key in HashTable.keys():
             HashIdf[key] = calcularIDF(key)
-            listaTemporal = HashTable.get(key.lower())
-            listaTemporal[Cont] = tfIdf(key, Cont)
-            HashTfIdf[key] = listaTemporal
-        Cont += 1
-    listaDePalabrasOrdenadas = GenerarCorpus()
+            #Si el elemento fue inspeccionado anteriormente, uso sus valores
+            #Esto es para no perder el valor
+            if key.lower() in HashTfIdf:
+                listatemporito = HashTfIdf[key.lower()]
+            else:
+                listatemporito = []
+                for numeros in listaDeDocumentos():
+                    listatemporito.append(0)
 
-
-    Cont = 0
-    for ignore in listaDePalabrasOrdenadas:
-        topDiez.append(ignore)
-        if (Cont >= 10000):
-            break
+            listatemporito[Cont] = tfIdf(key, Cont)
+            HashTfIdf[key] = listatemporito
         Cont += 1
+#<<<<<<< HEAD                pilasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
     ImprimirFullCorpus(topDiez)
     graficos(HashTable)
+#=======
+
+    generarDocIdf(HashIdf)
+    generarDocTf(HashTfIdf, "Analisis de tf-Idf")
+    graficos()
+#>>>>>>> origin/master
 
 
 #recibe un "String" que representa una palabra
@@ -352,14 +360,13 @@ def TfIdf():
 #Idf retorna lo siguiente: log ((CantidadDeDocumentos / EnCuantasDeEsaLaPalabraAparece))
 def calcularIDF(palabra):
     docsWithPalabra=0
-    listaTemp = []
     if palabra in HashTable: # calculo el numero de documentos que contienen la palabra y lo guardo en docsWithPalabra
-        listaTemp = HashTable.get(palabra)
-        for x in range(len(listaTemp)):
-            if float(listaTemp[x])!= 0 :
+        listaTempo = HashTable.get(palabra)
+        for x in range(len(listaTempo)):
+            if float(listaTempo[x])!= float(0) :
                 docsWithPalabra += 1
         if (docsWithPalabra != 0):
-            return math.log(len( listaTemp )/docsWithPalabra,10)
+            return math.log(len( listaTempo )/docsWithPalabra,10)
         else:
             return 0
     else:
@@ -377,8 +384,8 @@ def listaDeDocumentos():
 #O eso dice en este link: http://www.tfidf.com/
 def calcularTf(palabra, documento):
     if palabra in HashTable:
-        listaTemp = HashTable.get(palabra)
-        return listaTemp[documento]
+        listaTemporal = HashTable.get(palabra)
+        return listaTemporal[documento]
     else:
         return 0
 
@@ -415,18 +422,16 @@ def generarDocTf(hashTf, nombreArchivo):
 def generarDocIdf(hashIdf):
     docIdf = open("Analisis de Contenido\\Analisis de Idf.txt",'w')
     listaTemp = os.listdir("files")
-    docIdf.write("Palabras" + "\t")
-    for x in listaTemp:#imprimo nombres de documentos
-        docIdf.write(x + "\t")
-
+    docIdf.write("{0:20} {1:20}".format("Palabra", "Idf"))
+    docIdf.write("\n")
     for x in hashIdf.keys():
-        docIdf.write(str(x)+":")# escribo palabra
-        docIdf.write(str(hashIdf.get(x)))#escribo frecuencias por documento
+        docIdf.write("{0:20}: {1:20}".format(str(x), str(hashIdf.get(x) )) )
         docIdf.write("\n")
         
     docIdf.close()
 
 #Ordena una lista de manera ascendente.
+
 def SortList(lista):
     NuevaLista = []
     Index = 0
