@@ -270,22 +270,17 @@ def default(): #  default
 def TfIdf():
     if (len(HashTable) == 0):
         SoloGenerarHashmap()
-
-    listaTemporal = []
     global HashTfIdf
     global HashIdf
     global  List
-    Calculado = False
+
     HashIdf = {}
     HashTfIdf  = {}
     topDiez = []
     Cont = 0
     List = listaDeDocumentos()
-    generarDocTf(HashTable)
+    generarDocTf(HashTable,"Analisis de Tf")
     for x in listaDeDocumentos():
-        with open('files\\' + x, 'r') as myfile:
-             data = myfile.read()
-             Palabras = data.split()
         for key in HashTable.keys():
             HashIdf[key] = calcularIDF(key)
             listaTemporal = HashTable.get(key.lower())
