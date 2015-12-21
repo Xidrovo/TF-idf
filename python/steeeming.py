@@ -4,6 +4,7 @@ import os
 import snowballstemmer
 import matplotlib.pyplot as plt
 import numpy as np
+import unicodedata
 #from matplotlib.dates import date2num
 #import datetime
 #import plotly.plotly as py
@@ -71,10 +72,20 @@ def tres():
             Var = Var + " " + str(x)
 
         print("Tf por Documento: {0:20} ==> {1:10}".format(buscar, Var))
-        print("                 {0:20} ==> {1:10}".format("Idf:", calcularIDF(buscar)))
+        print("             {0:20} ==> {1:10}".format("Idf:", calcularIDF(buscar)))
 
     except Exception:
         print ( "La palabra no esta en el documento!" )
+
+#remueve tildes de las palabras
+#recibe una lista de strings
+#devuelde el string sin tildes
+def removerTildes(palabras):
+    retorno = []
+    for palabra in palabras :
+        retorno.append( ''.join(c for c in unicodedata.normalize('NFD', palabra)
+                      if unicodedata.category(c) != 'Mn'))
+    return retorno
 
 #Este metodo requerira el nombre del documento y un indice del doc.
 #Este metodo me dara un set con las palabras que no estan en stopwords las cuales seran usadas para el hashmap.
@@ -87,9 +98,11 @@ def GenerarFrecuencias(Documento, indice):
         Palabras = data.split()
         toLower(Palabras)#convierto los strings en palabras a minusculas
         toLower(StopWords)
+        StopWords = removerTildes(StopWords)
         Palabras=noPunct(Palabras)
         Palabras = BorrarNumeros(Palabras)
         removeAll(Palabras,StopWords)  # palabras - Stopwords
+        Palabras = removerTildes(Palabras)
 
         global activarStem #activo o desactivo el steming
         global buscar
