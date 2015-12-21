@@ -320,13 +320,22 @@ def TfIdf():
             break
         Cont += 1
     hashTf = {}
+    listaPrueba = []
+    Cont = 0
     #Guardo en un hashmap la palabra con su frecuencia separada por documentos
     #La estructura de este hashmap es identica al de 'hashtable'
     for nombrePalabra in topDiez:
         hashTf[nombrePalabra[0]] = HashTable.get(nombrePalabra[0])
-    Cont = 0
+        listaPrueba.append(nombrePalabra[0])
+        pruebaDos = []
+        pruebaDos.append(nombrePalabra[0])
+        pruebaDos.append(HashTable.get(nombrePalabra[0]))
+        listaPrueba[Cont] = pruebaDos
+        Cont += 1
 
+   # generarDocTfConMatriz(listaPrueba, "ya")
     generarDocTf(hashTf,"Analisis de Tf")
+    Cont = 0
     listatemporito = []
     #Genero una lista dle tamaño relavito a la cantidad de documentos.
     for x in listaDeDocumentos():
@@ -407,6 +416,24 @@ def generarDocTf(hashTf, nombreArchivo):
             docTf.write("\t\t\t")
             #docTf.seek(1,2) #retrocedo una caracter
             docTf.write(str(y))#escribo frecuencias por documento
+        docTf.write("\n")
+
+    docTf.close()
+
+def generarDocTfConMatriz(hashTf, nombreArchivo):
+    docTf = open("Analisis de Contenido\\" + str(nombreArchivo),'w')
+    listaTemp = os.listdir("files")
+    docTf.write("{0:20}".format("Palabras") + "\t\t\t")
+    for x in listaTemp:#imprimo nombres de documentos
+        docTf.write(x + "\t\t\t")
+
+    docTf.write("\n")
+
+    for x in hashTf:
+        testo = ""
+        for y in x:
+            testo = testo + y + "\t\t\t"
+        docTf.write("{0:20}: {1:15}".format(x, testo))
         docTf.write("\n")
 
     docTf.close()
