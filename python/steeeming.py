@@ -344,15 +344,10 @@ def TfIdf():
             listatemporito[Cont] = tfIdf(key, Cont)
             HashTfIdf[key] = listatemporito
         Cont += 1
-#<<<<<<< HEAD                pilasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-    ImprimirFullCorpus(topDiez)
-    graficos(HashTable)
-#=======
 
     generarDocIdf(HashIdf)
     generarDocTf(HashTfIdf, "Analisis de tf-Idf")
-    graficos()
-#>>>>>>> origin/master
+  #  graficos(HashTable)
 
 
 #recibe un "String" que representa una palabra
@@ -403,7 +398,7 @@ def generarDocTf(hashTf, nombreArchivo):
     listaTemp = os.listdir("files")
     docTf.write("{0:20}".format("Palabras") + "\t\t\t")
     for x in listaTemp:#imprimo nombres de documentos
-        docTf.write(x + "\t\t")
+        docTf.write(x + "\t\t\t")
 
     docTf.write("\n")
     for x in hashTf.keys():
@@ -460,7 +455,8 @@ switch = {
         '2': dos,
         '3': tres,
         '4': GenerarHashmap,
-        '5': graficos#TfIdf
+        '5': TfIdf,
+        '6': graficos
         }
 
 #Opciones del menu principal
@@ -473,6 +469,7 @@ while (op!='0'):
     3.-Ingresar Palabras de Busqueda
     4.- Mostrar Estadisticas
     5.- Tf
+    6.- graficos
     """)
 
     try:
