@@ -1,4 +1,3 @@
-
 __author__ = 'CltControl'
 import shutil
 import os
@@ -243,7 +242,6 @@ def removeAll(lista1,lista2):
         i += 1
 
 def graficos(topDiezTf):
-    hashTf = HashTable.copy()
     #fig = plt.figure()
     #ax=plt.subplot(111)
     valoresTf = []
@@ -254,8 +252,9 @@ def graficos(topDiezTf):
     cont = 0
     fig, ax = plt.subplots() #grupo de barras
     #for cont in range(len(hashTf.keys())):
-    for x in hashTf.keys():
-        rects1 = ax.bar(ind + (width * cont), topDiezTf[x][2], width, color='r')
+    for x in topDiezTf:
+        #print(topDiezTf[x][1])
+        rects1 = ax.bar(ind + (width * cont), x[1], width, color='r')
         rectangulos.append(rects1)
     ax.set_ylabel('TF')
     ax.set_title('Tf por Documento')
@@ -356,7 +355,7 @@ def TfIdf():
 
     generarDocIdf(HashIdf)
     generarDocTf(HashTfIdf, "Analisis de tf-Idf")
-  #  graficos(HashTable)
+    graficos(listaPrueba)
 
 
 #recibe un "String" que representa una palabra
@@ -449,7 +448,7 @@ def generarDocIdf(hashIdf):
     for x in hashIdf.keys():
         docIdf.write("{0:20}: {1:20}".format(str(x), str(hashIdf.get(x) )) )
         docIdf.write("\n")
-        
+
     docIdf.close()
 
 #Ordena una lista de manera ascendente.
@@ -483,7 +482,7 @@ switch = {
         '3': tres,
         '4': GenerarHashmap,
         '5': TfIdf,
-        '6': graficos
+
         }
 
 #Opciones del menu principal
@@ -495,8 +494,7 @@ while (op!='0'):
     2.-Eliminar palabras
     3.-Ingresar Palabras de Busqueda
     4.- Mostrar Estadisticas
-    5.- Tf
-    6.- graficos
+    5.- Generar Documentos Tf , Idf y Tf-Idf
     """)
 
     try:
