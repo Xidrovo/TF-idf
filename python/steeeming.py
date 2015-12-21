@@ -283,7 +283,16 @@ def graficoTf(topDiezTf):
     ax.set_title('Documentos')
     ax.set_xticks(ind + (5 * width))
     ax.set_xticklabels(leyendasX) #leyendas en x ----> palabras
+    def autolabel(rects):  #genera los labels de os rectangulos
+         # attach some text labels
+         for rect in rects:
+            height = rect.get_height()
+            ax.text(rect.get_x() + rect.get_width()/2., 1.05*height,'%d' % int(height),ha='center', va='bottom')
 
+         for x in rectangulos:
+            autolabel(x)
+
+    plt.show()
 
 
 #Retorna una nueva lista el cual ignora los números.
