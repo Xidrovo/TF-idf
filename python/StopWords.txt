@@ -1,4 +1,4 @@
-A
+﻿A
 o
 un
 una
@@ -528,3 +528,5 @@ vuestros
 y
 ya
 yo
+les
+le

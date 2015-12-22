@@ -1,4 +1,4 @@
-A
+﻿A
 o
 un
 una
@@ -529,3 +529,5 @@ y
 ya
 yo
 les
+le
+marguerite

@@ -341,7 +341,10 @@ def graficoTfIdf(topDiezTfIdf):
     cont = 0
     fig, ax = plt.subplots() #grupo de barras
     for x in topDiezTfIdf:
-        #print(topDiezTf[x][1])
+        #print(topDiezTf[x][1])nombre
+        i=0
+        for i in range(len(x[1])):
+            x[1][i] = math.ceil(float(x[1][i]))
         rects1 = ax.bar(ind + (width * cont), x[1], width, color= 'r') #por cada vuelta genero un set de barras del Tf de una palabra en los documentos
         for y in ind:
             ax.text(rects1[0].get_x() + y,rects1[0].get_height()/2.,x[0],rotation='vertical')# imprimo texto en los rectangulos.   formato de funcion text(posX,posY,String,Rotacion)
